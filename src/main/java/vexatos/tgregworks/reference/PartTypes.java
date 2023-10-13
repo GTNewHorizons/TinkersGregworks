@@ -1,7 +1,32 @@
 package vexatos.tgregworks.reference;
 
-import static vexatos.tgregworks.reference.Pattern.MetalPatterns.*;
-import static vexatos.tgregworks.reference.Pattern.WeaponryPatterns.*;
+import static vexatos.tgregworks.reference.Pattern.MetalPatterns.arrowhead;
+import static vexatos.tgregworks.reference.Pattern.MetalPatterns.axe;
+import static vexatos.tgregworks.reference.Pattern.MetalPatterns.binding;
+import static vexatos.tgregworks.reference.Pattern.MetalPatterns.broadaxe;
+import static vexatos.tgregworks.reference.Pattern.MetalPatterns.chisel;
+import static vexatos.tgregworks.reference.Pattern.MetalPatterns.crossbar;
+import static vexatos.tgregworks.reference.Pattern.MetalPatterns.excavator;
+import static vexatos.tgregworks.reference.Pattern.MetalPatterns.frypan;
+import static vexatos.tgregworks.reference.Pattern.MetalPatterns.fullguard;
+import static vexatos.tgregworks.reference.Pattern.MetalPatterns.hammerhead;
+import static vexatos.tgregworks.reference.Pattern.MetalPatterns.knifeblade;
+import static vexatos.tgregworks.reference.Pattern.MetalPatterns.largeblade;
+import static vexatos.tgregworks.reference.Pattern.MetalPatterns.largeguard;
+import static vexatos.tgregworks.reference.Pattern.MetalPatterns.largeplate;
+import static vexatos.tgregworks.reference.Pattern.MetalPatterns.largerod;
+import static vexatos.tgregworks.reference.Pattern.MetalPatterns.mediumguard;
+import static vexatos.tgregworks.reference.Pattern.MetalPatterns.pickaxe;
+import static vexatos.tgregworks.reference.Pattern.MetalPatterns.rod;
+import static vexatos.tgregworks.reference.Pattern.MetalPatterns.scythe;
+import static vexatos.tgregworks.reference.Pattern.MetalPatterns.shovel;
+import static vexatos.tgregworks.reference.Pattern.MetalPatterns.sign;
+import static vexatos.tgregworks.reference.Pattern.MetalPatterns.swordblade;
+import static vexatos.tgregworks.reference.Pattern.MetalPatterns.toughbinding;
+import static vexatos.tgregworks.reference.Pattern.WeaponryPatterns.bowlimb;
+import static vexatos.tgregworks.reference.Pattern.WeaponryPatterns.crossbowbody;
+import static vexatos.tgregworks.reference.Pattern.WeaponryPatterns.crossbowlimb;
+import static vexatos.tgregworks.reference.Pattern.WeaponryPatterns.shuriken;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

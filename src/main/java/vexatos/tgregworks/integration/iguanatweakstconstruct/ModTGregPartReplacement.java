@@ -1,7 +1,9 @@
 package vexatos.tgregworks.integration.iguanatweakstconstruct;
 
-import static iguanaman.iguanatweakstconstruct.replacing.ReplacementLogic.*;
-import static iguanaman.iguanatweakstconstruct.replacing.ReplacementLogic.PartTypes.*;
+import static iguanaman.iguanatweakstconstruct.replacing.ReplacementLogic.PartTypes.ACCESSORY;
+import static iguanaman.iguanatweakstconstruct.replacing.ReplacementLogic.PartTypes.EXTRA;
+import static iguanaman.iguanatweakstconstruct.replacing.ReplacementLogic.PartTypes.HANDLE;
+import static iguanaman.iguanatweakstconstruct.replacing.ReplacementLogic.PartTypes.HEAD;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
