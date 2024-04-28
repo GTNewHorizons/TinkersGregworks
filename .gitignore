@@ -13,4 +13,7 @@
 !/gradlew
 !/gradlew.bat
 
-!/build.properties
+!/dependencies.gradle
+!/gradle.properties
+!/repositories.gradle
+!/settings.gradle
