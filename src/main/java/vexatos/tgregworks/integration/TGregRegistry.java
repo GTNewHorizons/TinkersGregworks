@@ -3,6 +3,7 @@ package vexatos.tgregworks.integration;
 import cpw.mods.fml.common.registry.GameRegistry;
 import gregtech.api.GregTechAPI;
 import gregtech.api.enums.Materials;
+import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Property;
 import tconstruct.library.TConstructRegistry;
 import tconstruct.library.crafting.FluidType;
@@ -15,6 +16,7 @@ import vexatos.tgregworks.reference.PartTypes;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -29,10 +31,13 @@ public class TGregRegistry {
 	public ArrayList<String> toolMaterialNames = new ArrayList<String>();
 	public HashMap<Materials, Integer> matIDs = new HashMap<Materials, Integer>();
 	public HashMap<Integer, Materials> materialIDMap = new HashMap<Integer, Materials>();
+	public HashSet<Integer> configMaterialIDs = new HashSet<Integer>();
 
 	private int getLatestAvailableNumber() {
+		initConfigMaterialIDs();
+
 		for(int i = latestAvailableNumber; i < 16383; i++) {
-			if(!TConstructRegistry.toolMaterials.containsKey(i) && !configIDs.contains(i)) {
+			if(!TConstructRegistry.toolMaterials.containsKey(i) && !configMaterialIDs.contains(i)) {
 				latestAvailableNumber = i + 1;
 				return i;
 			}
@@ -40,8 +45,21 @@ public class TGregRegistry {
 		throw new RuntimeException("TConstruct tool material registry ran out of IDs!");
 	}
 
-	public final HashMap<Materials, Property> configProps = new HashMap<>();
-	public final ArrayList<Integer> configIDs = new ArrayList<>();
+	private void initConfigMaterialIDs() {
+		if (!configMaterialIDs.isEmpty()) {
+			return;
+		}
+
+		ConfigCategory materialIdCategory = TGregworks.config.getCategory(Config.onMaterial(Config.MaterialID));
+		if (materialIdCategory != null) {
+			for (Property property : materialIdCategory.values()) {
+				int id = property.getInt();
+				if (id > 0) {
+					configMaterialIDs.add(property.getInt());
+				}
+			}
+		}
+	}
 
 	public int getMaterialID(Materials m) {
 		Property configProp = configProps.get(m);
@@ -54,7 +72,8 @@ public class TGregRegistry {
 		}
 
 		final int newID = getLatestAvailableNumber();
-		configProp.set(newID);
+		configProp.setValue(newID);
+		TGregworks.log.info("Automatically assigned material ID {} for material \"{}\"", newID, m.getName());
 		return newID;
 	}
 
@@ -84,8 +103,6 @@ public class TGregRegistry {
 			matIDs.put(m, matID);
 			materialIDMap.put(matID, m);
 		}
-		configProps.clear();
-		configIDs.clear();
 
 		ItemTGregPart.toolMaterialNames = toolMaterialNames;
 	}
