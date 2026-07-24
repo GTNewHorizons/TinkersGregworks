@@ -39,17 +39,17 @@ import vexatos.tgregworks.util.TGregUtils;
  * @author Vexatos
  */
 @Mod(
-        modid = Mods.TGregworks,
-        name = Mods.TGregworks_NAME,
-        version = "GRADLETOKEN_VERSION",
-        dependencies = "required-after:" + Mods.TConstruct
-                + "@[1.7.10-1.8.6b.build977,);"
-                + "required-after:"
-                + Mods.GregTech
-                + "@[MC1710];"
-                + "before:"
-                + Mods.TiCTooltips
-                + "@[1.2.4,)")
+    modid = Mods.TGregworks,
+    name = Mods.TGregworks_NAME,
+    version = "GRADLETOKEN_VERSION",
+    dependencies = "required-after:" + Mods.TConstruct
+        + "@[1.7.10-1.8.6b.build977,);"
+        + "required-after:"
+        + Mods.GregTech
+        + "@[MC1710];"
+        + "before:"
+        + Mods.TiCTooltips
+        + "@[1.2.4,)")
 public class TGregworks {
 
     public static Logger log = LogManager.getLogger(Mods.TGregworks);
@@ -59,8 +59,8 @@ public class TGregworks {
     public static TGregworks instance;
 
     @SidedProxy(
-            clientSide = "vexatos.tgregworks.proxy.ClientProxy",
-            serverSide = "vexatos.tgregworks.proxy.CommonProxy")
+        clientSide = "vexatos.tgregworks.proxy.ClientProxy",
+        serverSide = "vexatos.tgregworks.proxy.CommonProxy")
     public static CommonProxy proxy;
 
     public static TGregRegistry registry;
@@ -81,7 +81,7 @@ public class TGregworks {
         }
         if (GregTech_API.VERSION < 509) {
             throw new RuntimeException(
-                    "Your GregTech version is too old for this edition of the mod! It only works with GregTech 5 Unofficial. Please use the main version of TGregworks or switch to GT5U.");
+                "Your GregTech version is too old for this edition of the mod! It only works with GregTech 5 Unofficial. Please use the main version of TGregworks or switch to GT5U.");
         }
     }
 
@@ -98,46 +98,50 @@ public class TGregworks {
         repair = new TGregRepairRegistry();
 
         config.setCategoryComment(
-                Config.Category.Global,
-                "Values between 0.0 and 10000.0 are allowed. Will be directly multiplied with the internally calculated value. Applies to all materials.");
+            Config.Category.Global,
+            "Values between 0.0 and 10000.0 are allowed. Will be directly multiplied with the internally calculated value. Applies to all materials.");
         config.setCategoryComment(
-                Config.onMaterial(Config.Durability),
-                "Values between 0.0 and 10000.0 are allowed. Will be directly multiplied with the internally calculated value.");
+            Config.onMaterial(Config.Durability),
+            "Values between 0.0 and 10000.0 are allowed. Will be directly multiplied with the internally calculated value.");
         config.setCategoryComment(
-                Config.onMaterial(Config.MiningSpeed),
-                "Values between 0.0 and 10000.0 are allowed. Will be directly multiplied with the internally calculated value.");
+            Config.onMaterial(Config.MiningSpeed),
+            "Values between 0.0 and 10000.0 are allowed. Will be directly multiplied with the internally calculated value.");
         config.setCategoryComment(
-                Config.onMaterial(Config.Attack),
-                "Values between 0.0 and 10000.0 are allowed. Will be directly multiplied with the internally calculated value.");
+            Config.onMaterial(Config.Attack),
+            "Values between 0.0 and 10000.0 are allowed. Will be directly multiplied with the internally calculated value.");
         config.setCategoryComment(
-                Config.onMaterial(Config.HandleModifier),
-                "Values between 0.0 and 10000.0 are allowed. Will be directly multiplied with the internally calculated value.");
+            Config.onMaterial(Config.HandleModifier),
+            "Values between 0.0 and 10000.0 are allowed. Will be directly multiplied with the internally calculated value.");
         config.setCategoryComment(
-                Config.onMaterial(Config.MaterialID),
-                "Values between 0 and 100000 are allowed. The ID of each individual material. Setting an ID to 0 will regenerate it. When changing materialIDRangeStart, you might want to delete this category so the tool IDs can be regenerated.");
+            Config.onMaterial(Config.MaterialID),
+            "Values between 0 and 100000 are allowed. The ID of each individual material. Setting an ID to 0 will regenerate it. When changing materialIDRangeStart, you might want to delete this category so the tool IDs can be regenerated.");
         config.setCategoryComment(
-                Config.StoneboundLevel,
-                "Values between -3 and 3 are allowed. Positive Values give the Stonebound effect, negative values give Jagged. "
-                        + "Keep in mind that neither 'Stonebound' nor 'Jagged' will actually appear on the tool's item tooltip, due to technical limitations.");
+            Config.StoneboundLevel,
+            "Values between -3 and 3 are allowed. Positive Values give the Stonebound effect, negative values give Jagged. "
+                + "Keep in mind that neither 'Stonebound' nor 'Jagged' will actually appear on the tool's item tooltip, due to technical limitations.");
         config.setCategoryComment(
-                Config.ReinforcedLevel,
-                "Values between 0 and 3 are allowed. Gives the according level of Reinforced.");
+            Config.ReinforcedLevel,
+            "Values between 0 and 3 are allowed. Gives the according level of Reinforced.");
         config.setCategoryComment(
-                Config.onMaterial(Config.BowDrawSpeed),
-                "Values between 0.0 and 10000.0 are allowed. Will be directly multiplied with the internally calculated value.");
+            Config.onMaterial(Config.BowDrawSpeed),
+            "Values between 0.0 and 10000.0 are allowed. Will be directly multiplied with the internally calculated value.");
         config.setCategoryComment(
-                Config.onMaterial(Config.BowFlightSpeed),
-                "Values between 0.0 and 10000.0 are allowed. Will be directly multiplied with the internally calculated value.");
+            Config.onMaterial(Config.BowFlightSpeed),
+            "Values between 0.0 and 10000.0 are allowed. Will be directly multiplied with the internally calculated value.");
         config.setCategoryComment(
-                Config.onMaterial(Config.ArrowMass),
-                "Values between 0.0 and 10000.0 are allowed. Will be directly multiplied with the internally calculated value.");
+            Config.onMaterial(Config.ArrowMass),
+            "Values between 0.0 and 10000.0 are allowed. Will be directly multiplied with the internally calculated value.");
         config.setCategoryComment(
-                Config.onMaterial(Config.ArrowBreakChance),
-                "Values between 0.0 and 10000.0 are allowed. Determines the break chance of arrows.");
+            Config.onMaterial(Config.ArrowBreakChance),
+            "Values between 0.0 and 10000.0 are allowed. Determines the break chance of arrows.");
 
         shardCast = new ShardPattern(tab);
-        shardCast.setCreativeTab(tab).setUnlocalizedName("tgregworks.shardcast").setTextureName("tgregworks:cast_shard")
-                .setMaxDamage(0).setHasSubtypes(false).setMaxStackSize(1);
+        shardCast.setCreativeTab(tab)
+            .setUnlocalizedName("tgregworks.shardcast")
+            .setTextureName("tgregworks:cast_shard")
+            .setMaxDamage(0)
+            .setHasSubtypes(false)
+            .setMaxStackSize(1);
         GameRegistry.registerItem(shardCast, "tgregworks.shardcast");
         // shardCast = new
         // Item().setCreativeTab(tab).setUnlocalizedName("tgregworks.shardcast").setTextureName("tgregworks:cast_shard").setMaxDamage(0).setHasSubtypes(false).setMaxStackSize(1);

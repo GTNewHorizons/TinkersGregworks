@@ -70,91 +70,91 @@ public class TGregRecipeRegistry {
 
     public void addGregTechPartRecipes() {
         addGemToolPartRecipes = TGregworks.config.getBoolean(
-                "gemToolPartRecipes",
-                Config.concat(Config.Category.Enable, Config.Category.Recipes),
-                true,
-                "Enable recipes for tool parts made of gems");
+            "gemToolPartRecipes",
+            Config.concat(Config.Category.Enable, Config.Category.Recipes),
+            true,
+            "Enable recipes for tool parts made of gems");
         energyMultiplier = TGregworks.config.getFloat(
-                "energyUsageMultiplier",
-                Config.concat(Config.Category.General),
-                1F,
-                0F,
-                4500F,
-                "Energy usage multiplier for the extruder and solidifier. Base EU/t is either 30 or 120");
+            "energyUsageMultiplier",
+            Config.concat(Config.Category.General),
+            1F,
+            0F,
+            4500F,
+            "Energy usage multiplier for the extruder and solidifier. Base EU/t is either 30 or 120");
 
         addReverseSmelting = TGregworks.config.getBoolean(
-                "reverseSmelting",
-                Config.concat(Config.Category.Enable, Config.Category.Recipes, Config.Category.AlloySmelter),
-                true,
-                "Enable smelting tool parts in an alloy smelter to get shards back");
+            "reverseSmelting",
+            Config.concat(Config.Category.Enable, Config.Category.Recipes, Config.Category.AlloySmelter),
+            true,
+            "Enable smelting tool parts in an alloy smelter to get shards back");
         addShardToIngotSmelting = TGregworks.config.getBoolean(
-                "shardToIngotSmelting",
-                Config.concat(Config.Category.Enable, Config.Category.Recipes, Config.Category.AlloySmelter),
-                true,
-                "Enable smelting two shards into one ingot in an alloy smelter");
+            "shardToIngotSmelting",
+            Config.concat(Config.Category.Enable, Config.Category.Recipes, Config.Category.AlloySmelter),
+            true,
+            "Enable smelting two shards into one ingot in an alloy smelter");
 
         addExtruderRecipes = TGregworks.config.getBoolean(
-                "extruderRecipes",
-                Config.concat(Config.Category.Enable, Config.Category.Recipes, Config.Category.Extruder),
-                true,
-                "Enable tool part recipes in the extruder");
+            "extruderRecipes",
+            Config.concat(Config.Category.Enable, Config.Category.Recipes, Config.Category.Extruder),
+            true,
+            "Enable tool part recipes in the extruder");
         addShardToToolPart = TGregworks.config.getBoolean(
-                "shardToToolPartRecipe",
-                Config.concat(Config.Category.Enable, Config.Category.Recipes, Config.Category.Extruder),
-                true,
-                "Enable creating tool parts from shards in the extruder (if 'extruderRecipes' is enabled)");
+            "shardToToolPartRecipe",
+            Config.concat(Config.Category.Enable, Config.Category.Recipes, Config.Category.Extruder),
+            true,
+            "Enable creating tool parts from shards in the extruder (if 'extruderRecipes' is enabled)");
         addIngotToShard = TGregworks.config.getBoolean(
-                "ingotToShardRecipe",
-                Config.concat(Config.Category.Enable, Config.Category.Recipes, Config.Category.Extruder),
-                true,
-                "Enable creating shards from ingots in the extruder");
+            "ingotToShardRecipe",
+            Config.concat(Config.Category.Enable, Config.Category.Recipes, Config.Category.Extruder),
+            true,
+            "Enable creating shards from ingots in the extruder");
         addCastExtruderRecipes = TGregworks.config.getBoolean(
-                "castExtruderRecipes",
-                Config.concat(Config.Category.Enable, Config.Category.Recipes, Config.Category.Extruder),
-                CastLegacy.metalPattern != null,
-                "Enable creating tool part casts in the extruder");
+            "castExtruderRecipes",
+            Config.concat(Config.Category.Enable, Config.Category.Recipes, Config.Category.Extruder),
+            CastLegacy.metalPattern != null,
+            "Enable creating tool part casts in the extruder");
 
         addSolidifierRecipes = TGregworks.config.getBoolean(
-                "solidifierRecipes",
-                Config.concat(Config.Category.Enable, Config.Category.Recipes, Config.Category.Solidifier),
-                false,
-                "Enable tool part recipes in the fluid solidifier");
+            "solidifierRecipes",
+            Config.concat(Config.Category.Enable, Config.Category.Recipes, Config.Category.Solidifier),
+            false,
+            "Enable tool part recipes in the fluid solidifier");
         addMoltenToShard = TGregworks.config.getBoolean(
-                "moltenToShardRecipe",
-                Config.concat(Config.Category.Enable, Config.Category.Recipes, Config.Category.Solidifier),
-                false,
-                "Enable creating shards from molten material in the fluid solidifier");
+            "moltenToShardRecipe",
+            Config.concat(Config.Category.Enable, Config.Category.Recipes, Config.Category.Solidifier),
+            false,
+            "Enable creating shards from molten material in the fluid solidifier");
         addCastSolidifierRecipes = TGregworks.config.getBoolean(
-                "castSolidifierRecipes",
-                Config.concat(Config.Category.Enable, Config.Category.Recipes, Config.Category.Solidifier),
-                false,
-                "Enable creating tool part casts in the fluid solidifier");
+            "castSolidifierRecipes",
+            Config.concat(Config.Category.Enable, Config.Category.Recipes, Config.Category.Solidifier),
+            false,
+            "Enable creating tool part casts in the fluid solidifier");
         useNonGTFluidsForBolts = TGregworks.config.getBoolean(
-                "useNonGTFluidsForBolts",
-                Config.concat(Config.Category.Enable, Config.Category.Recipes, Config.Category.Solidifier),
-                true,
-                "Register Fluid Solidifier recipes for bolts with non-GT fluids.");
+            "useNonGTFluidsForBolts",
+            Config.concat(Config.Category.Enable, Config.Category.Recipes, Config.Category.Solidifier),
+            true,
+            "Register Fluid Solidifier recipes for bolts with non-GT fluids.");
         useNonGTToolRodsForBolts = TGregworks.config.getBoolean(
-                "useNonGTToolRodsForBolts",
-                Config.concat(Config.Category.Enable, Config.Category.Recipes, Config.Category.Solidifier),
-                true,
-                "Register Fluid Solidifier recipes for bolts with tool rods from non-GT materials.");
+            "useNonGTToolRodsForBolts",
+            Config.concat(Config.Category.Enable, Config.Category.Recipes, Config.Category.Solidifier),
+            true,
+            "Register Fluid Solidifier recipes for bolts with tool rods from non-GT materials.");
 
         addFluidExtractorRecipes = TGregworks.config.getBoolean(
-                "fluidExtractorRecipes",
-                Config.concat(Config.Category.Enable, Config.Category.Recipes, Config.Category.Extractor),
-                false,
-                "Enable extracting the molten material out of tool parts in the fluid extractor");
+            "fluidExtractorRecipes",
+            Config.concat(Config.Category.Enable, Config.Category.Recipes, Config.Category.Extractor),
+            false,
+            "Enable extracting the molten material out of tool parts in the fluid extractor");
         addShardExtractorRecipes = TGregworks.config.getBoolean(
-                "shardExtractorRecipes",
-                Config.concat(Config.Category.Enable, Config.Category.Recipes, Config.Category.Extractor),
-                false,
-                "Enable extracting the molten material out of shards in the fluid extractor");
+            "shardExtractorRecipes",
+            Config.concat(Config.Category.Enable, Config.Category.Recipes, Config.Category.Extractor),
+            false,
+            "Enable extracting the molten material out of shards in the fluid extractor");
 
         // Make sure eu/t isn't 0 or the higher end materials eu/t does not exceed ultimate voltage
         if (energyMultiplier < 0 || (120 * energyMultiplier) > 524288) {
             TGregworks.log
-                    .error("Invalid energy multiplier found in config: " + energyMultiplier + ". Reverting back to 1.");
+                .error("Invalid energy multiplier found in config: " + energyMultiplier + ". Reverting back to 1.");
             energyMultiplier = 1;
         }
         for (Materials m : TGregworks.registry.toolMaterials) {
@@ -167,43 +167,43 @@ public class TGregRecipeRegistry {
                     // GregTech_API.sRecipeAdder.addAlloySmelterRecipe(GT_OreDictUnificator.get(OrePrefixes.ingot, m,
                     // p.price), p.pattern, input, 80 * p.price, 30);
                     ItemStack stack = GT_OreDictUnificator.get(
-                            OrePrefixes.ingot,
-                            m,
-                            price % 2 != 0 ? (price / 2) + 1 : MathHelper.ceiling_double_int(price / 2D));
+                        OrePrefixes.ingot,
+                        m,
+                        price % 2 != 0 ? (price / 2) + 1 : MathHelper.ceiling_double_int(price / 2D));
                     if (addGemToolPartRecipes && stack == null) {
                         stack = GT_OreDictUnificator.get(
-                                OrePrefixes.gem,
-                                m,
-                                price % 2 != 0 ? (price / 2) + 1 : MathHelper.ceiling_double_int(price / 2D));
+                            OrePrefixes.gem,
+                            m,
+                            price % 2 != 0 ? (price / 2) + 1 : MathHelper.ceiling_double_int(price / 2D));
                     }
                     if (stack != null) {
                         if (addExtruderRecipes) {
                             GT_Values.RA.addExtruderRecipe(
-                                    stack.copy(),
-                                    pattern.copy(),
-                                    input.copy(),
-                                    Math.max(80, m.mDurability * price),
-                                    powerRequired);
+                                stack.copy(),
+                                pattern.copy(),
+                                input.copy(),
+                                Math.max(80, m.mDurability * price),
+                                powerRequired);
                         }
                         {
                             FluidStack molten = m.getMolten((GT_Values.L / 2) * p.getPrice());
                             if (molten != null && molten.getFluid() != null) {
                                 if (addSolidifierRecipes) {
                                     GT_Values.RA.addFluidSolidifierRecipe(
-                                            pattern.copy(),
-                                            molten.copy(),
-                                            input.copy(),
-                                            Math.max(80, m.mDurability * price),
-                                            powerRequired);
+                                        pattern.copy(),
+                                        molten.copy(),
+                                        input.copy(),
+                                        Math.max(80, m.mDurability * price),
+                                        powerRequired);
                                 }
                                 if (addFluidExtractorRecipes) {
                                     GT_Values.RA.addFluidExtractionRecipe(
-                                            input.copy(),
-                                            null,
-                                            molten.copy(),
-                                            0,
-                                            Math.max(80, m.mDurability * price),
-                                            powerRequired);
+                                        input.copy(),
+                                        null,
+                                        molten.copy(),
+                                        0,
+                                        Math.max(80, m.mDurability * price),
+                                        powerRequired);
                                 }
                             }
                             // GregTech_API.sRecipeAdder.addAlloySmelterRecipe(getChunk(m, p.price), p.pattern, input,
@@ -213,19 +213,19 @@ public class TGregRecipeRegistry {
                         if (stack != null) {
                             if (addExtruderRecipes && addShardToToolPart) {
                                 GT_Values.RA.addExtruderRecipe(
-                                        stack.copy(),
-                                        pattern.copy(),
-                                        input.copy(),
-                                        80 + (m.mDurability * price),
-                                        powerRequired);
+                                    stack.copy(),
+                                    pattern.copy(),
+                                    input.copy(),
+                                    80 + (m.mDurability * price),
+                                    powerRequired);
                             }
                             if (addReverseSmelting) {
                                 GT_Values.RA.addAlloySmelterRecipe(
-                                        input.copy(),
-                                        new ItemStack(TGregworks.shardCast, 0, 0),
-                                        stack.copy(),
-                                        80 + (m.mDurability * price),
-                                        powerRequired);
+                                    input.copy(),
+                                    new ItemStack(TGregworks.shardCast, 0, 0),
+                                    stack.copy(),
+                                    80 + (m.mDurability * price),
+                                    powerRequired);
                             }
                         }
                     }
@@ -239,11 +239,11 @@ public class TGregRecipeRegistry {
             if (stack != null && ingotStack != null) {
                 if (addIngotToShard) {
                     GT_Values.RA.addExtruderRecipe(
-                            ingotStack,
-                            new ItemStack(TGregworks.shardCast, 0, 0),
-                            stack.copy(),
-                            Math.max(160, m.mDurability),
-                            powerRequired);
+                        ingotStack,
+                        new ItemStack(TGregworks.shardCast, 0, 0),
+                        stack.copy(),
+                        Math.max(160, m.mDurability),
+                        powerRequired);
                 }
                 ItemStack halfStack = stack.copy();
                 halfStack.stackSize = 1;
@@ -251,38 +251,38 @@ public class TGregRecipeRegistry {
                 if (molten != null && molten.getFluid() != null) {
                     if (addMoltenToShard) {
                         GT_Values.RA.addFluidSolidifierRecipe(
-                                new ItemStack(TGregworks.shardCast, 0, 0),
-                                molten.copy(),
-                                halfStack.copy(),
-                                Math.max(160, m.mDurability),
-                                powerRequired);
+                            new ItemStack(TGregworks.shardCast, 0, 0),
+                            molten.copy(),
+                            halfStack.copy(),
+                            Math.max(160, m.mDurability),
+                            powerRequired);
                     }
                     if (addShardExtractorRecipes) {
                         GT_Values.RA.addFluidExtractionRecipe(
-                                halfStack.copy(),
-                                null,
-                                molten.copy(),
-                                0,
-                                Math.max(160, m.mDurability),
-                                powerRequired);
+                            halfStack.copy(),
+                            null,
+                            molten.copy(),
+                            0,
+                            Math.max(160, m.mDurability),
+                            powerRequired);
                     }
                 }
                 if (addShardToIngotSmelting) {
                     GT_Values.RA.addAlloySmelterRecipe(
-                            stack.copy(),
-                            new ItemStack(MetalPatterns.ingot.getPatternItem(), 0, MetalPatterns.ingot.ordinal()),
-                            ingotStack.copy(),
-                            Math.max(160, m.mDurability),
-                            powerRequired);
+                        stack.copy(),
+                        new ItemStack(MetalPatterns.ingot.getPatternItem(), 0, MetalPatterns.ingot.ordinal()),
+                        ingotStack.copy(),
+                        Math.max(160, m.mDurability),
+                        powerRequired);
                 }
             }
         }
 
         if (TGregworks.config.getBoolean(
-                "tinkersconstructcastrecipe",
-                Config.concat(Config.Category.Enable, Config.Category.Recipes),
-                true,
-                "Enable the Shard Cast recipe using Tinkers' Construct shards")) {
+            "tinkersconstructcastrecipe",
+            Config.concat(Config.Category.Enable, Config.Category.Recipes),
+            true,
+            "Enable the Shard Cast recipe using Tinkers' Construct shards")) {
             ItemStack brassstack = GT_OreDictUnificator.get(OrePrefixes.plate, Materials.Brass, 1);
             if (TinkerTools.toolShard != null) {
                 /*
@@ -293,47 +293,47 @@ public class TGregRecipeRegistry {
                  */
                 if (TinkerTools.blankPattern != null) {
                     GT_Values.RA.addExtruderRecipe(
-                            new ItemStack(TinkerTools.blankPattern, 1, 1),
-                            new ItemStack(TinkerTools.toolShard, 1, TinkerTools.MaterialID.Obsidian),
-                            new ItemStack(TGregworks.shardCast, 1, 0),
-                            800,
-                            Math.round(30 * energyMultiplier));
+                        new ItemStack(TinkerTools.blankPattern, 1, 1),
+                        new ItemStack(TinkerTools.toolShard, 1, TinkerTools.MaterialID.Obsidian),
+                        new ItemStack(TGregworks.shardCast, 1, 0),
+                        800,
+                        Math.round(30 * energyMultiplier));
                     GT_Values.RA.addExtruderRecipe(
-                            new ItemStack(TinkerTools.blankPattern, 1, 2),
-                            new ItemStack(TinkerTools.toolShard, 1, TinkerTools.MaterialID.Obsidian),
-                            new ItemStack(TGregworks.shardCast, 1, 0),
-                            800,
-                            Math.round(30 * energyMultiplier));
+                        new ItemStack(TinkerTools.blankPattern, 1, 2),
+                        new ItemStack(TinkerTools.toolShard, 1, TinkerTools.MaterialID.Obsidian),
+                        new ItemStack(TGregworks.shardCast, 1, 0),
+                        800,
+                        Math.round(30 * energyMultiplier));
                 }
                 if (brassstack != null && !addCastExtruderRecipes) {
                     GT_Values.RA.addExtruderRecipe(
-                            brassstack,
-                            new ItemStack(TinkerTools.toolShard, 1, TinkerTools.MaterialID.Obsidian),
-                            new ItemStack(TGregworks.shardCast, 1, 0),
-                            800,
-                            Math.round(30 * energyMultiplier));
+                        brassstack,
+                        new ItemStack(TinkerTools.toolShard, 1, TinkerTools.MaterialID.Obsidian),
+                        new ItemStack(TGregworks.shardCast, 1, 0),
+                        800,
+                        Math.round(30 * energyMultiplier));
                 }
             }
         }
         if (TGregworks.config.getBoolean(
-                "gregtechcastrecipe",
-                Config.concat(Config.Category.Enable, Config.Category.Recipes),
-                true,
-                "Enable the GregTech style Shard Cast recipe")) {
+            "gregtechcastrecipe",
+            Config.concat(Config.Category.Enable, Config.Category.Recipes),
+            true,
+            "Enable the GregTech style Shard Cast recipe")) {
             GameRegistry.addRecipe(
-                    new ShapedOreRecipe(
-                            new ItemStack(TGregworks.shardCast, 1, 0),
-                            " CH",
-                            " PF",
-                            "   ",
-                            'C',
-                            ToolDictNames.craftingToolHardHammer.name(),
-                            'H',
-                            ToolDictNames.craftingToolKnife.name(),
-                            'F',
-                            ToolDictNames.craftingToolFile.name(),
-                            'P',
-                            "plateBrass"));
+                new ShapedOreRecipe(
+                    new ItemStack(TGregworks.shardCast, 1, 0),
+                    " CH",
+                    " PF",
+                    "   ",
+                    'C',
+                    ToolDictNames.craftingToolHardHammer.name(),
+                    'H',
+                    ToolDictNames.craftingToolKnife.name(),
+                    'F',
+                    ToolDictNames.craftingToolFile.name(),
+                    'P',
+                    "plateBrass"));
         }
     }
 
@@ -347,15 +347,15 @@ public class TGregRecipeRegistry {
 
     public void registerRepairMaterials() {
         addShardRepair = TGregworks.config.getBoolean(
-                "addShardRepair",
-                Config.concat(Config.Category.Enable, Config.Category.Recipes),
-                true,
-                "Allow repairing TGregworks tools with shards");
+            "addShardRepair",
+            Config.concat(Config.Category.Enable, Config.Category.Recipes),
+            true,
+            "Allow repairing TGregworks tools with shards");
         addIngotRepair = TGregworks.config.getBoolean(
-                "addIngotRepair",
-                Config.concat(Config.Category.Enable, Config.Category.Recipes),
-                false,
-                "Allow repairing TGregworks tools with ingots");
+            "addIngotRepair",
+            Config.concat(Config.Category.Enable, Config.Category.Recipes),
+            false,
+            "Allow repairing TGregworks tools with ingots");
         for (Materials m : TGregworks.registry.toolMaterials) {
             Integer matID = TGregworks.registry.matIDs.get(m);
             if (matID != null) {
@@ -376,10 +376,18 @@ public class TGregRecipeRegistry {
                     if (addIngotRepair) {
                         ArrayList<ItemStack> ingots = GT_OreDictUnificator.getOres(OrePrefixes.ingot, m);
                         if (!ingots.isEmpty()) {
-                            TGregworks.repair.registerOreDictRepairMaterial(m, OrePrefixes.ingot.get(m).toString(), 2);
+                            TGregworks.repair.registerOreDictRepairMaterial(
+                                m,
+                                OrePrefixes.ingot.get(m)
+                                    .toString(),
+                                2);
                         } else if (addGemToolPartRecipes) {
                             ingots.addAll(GT_OreDictUnificator.getOres(OrePrefixes.gem, m));
-                            TGregworks.repair.registerOreDictRepairMaterial(m, OrePrefixes.gem.get(m).toString(), 2);
+                            TGregworks.repair.registerOreDictRepairMaterial(
+                                m,
+                                OrePrefixes.gem.get(m)
+                                    .toString(),
+                                2);
                         }
                         for (ItemStack ingot : ingots) {
                             if (ingot != null && ingot.getItem() != null) {
@@ -390,7 +398,7 @@ public class TGregRecipeRegistry {
 
                                     // register the material
                                     PatternBuilder.instance
-                                            .registerFullMaterial(ingot, 2, mat.materialName, ingot, rod, matID);
+                                        .registerFullMaterial(ingot, 2, mat.materialName, ingot, rod, matID);
                                 }
                             }
                         }
@@ -428,16 +436,15 @@ public class TGregRecipeRegistry {
                 if (recipe == null) {
                     continue;
                 } else {
-                    arrowheadMaterialID = recipe.getResult().getItemDamage();
+                    arrowheadMaterialID = recipe.getResult()
+                        .getItemDamage();
                 }
             }
             for (Integer toolRodMaterialID : TConstructRegistry.toolMaterials.keySet()) {
                 ItemStack toolRod;
                 if (TGregworks.registry.materialIDMap.containsKey(toolRodMaterialID)) {
-                    toolRod = TGregUtils.newItemStack(
-                            TGregworks.registry.materialIDMap.get(toolRodMaterialID),
-                            PartTypes.ToolRod,
-                            1);
+                    toolRod = TGregUtils
+                        .newItemStack(TGregworks.registry.materialIDMap.get(toolRodMaterialID), PartTypes.ToolRod, 1);
                 } else {
                     toolRod = new ItemStack(TinkerTools.toolRod, 1, toolRodMaterialID);
                     if (((IToolPart) TinkerTools.toolRod).getMaterialID(toolRod) == -1) {
@@ -445,24 +452,25 @@ public class TGregRecipeRegistry {
                     }
                 }
                 if (!TGregworks.registry.materialIDMap.containsKey(toolRodMaterialID)
-                        && !(fluidEntry.getValue() instanceof TGregFluidType)) {
+                    && !(fluidEntry.getValue() instanceof TGregFluidType)) {
                     continue;
                 }
                 if ((useNonGTToolRodsForBolts || TGregworks.registry.materialIDMap.containsKey(toolRodMaterialID))
-                        && (useNonGTFluidsForBolts || fluidEntry.getValue() instanceof TGregFluidType)) {
+                    && (useNonGTFluidsForBolts || fluidEntry.getValue() instanceof TGregFluidType)) {
                     this.addBoltRecipe(toolRod, liquid.copy(), toolRodMaterialID, arrowheadMaterialID);
                 }
             }
         }
 
         // Remove broken dynamically added recipes.
-        ArrayList<CastingRecipe> castingRecipes = TConstructRegistry.getTableCasting().getCastingRecipes();
+        ArrayList<CastingRecipe> castingRecipes = TConstructRegistry.getTableCasting()
+            .getCastingRecipes();
         ArrayList<CastingRecipe> toRemove = new ArrayList<CastingRecipe>();
         for (CastingRecipe cr : castingRecipes) {
             if (cr != null && cr.cast != null
-                    && cr.cast.getItem() == TinkerTools.toolRod
-                    && TGregworks.registry.materialIDMap
-                            .containsKey(((IToolPart) TinkerTools.toolRod).getMaterialID(cr.cast))) {
+                && cr.cast.getItem() == TinkerTools.toolRod
+                && TGregworks.registry.materialIDMap
+                    .containsKey(((IToolPart) TinkerTools.toolRod).getMaterialID(cr.cast))) {
                 toRemove.add(cr);
             }
         }
@@ -478,12 +486,12 @@ public class TGregRecipeRegistry {
         ToolMaterial arrowheadMaterial = TConstructRegistry.toolMaterials.get(arrowheadMaterialID);
         if (toolRodMaterial != null && arrowheadMaterial != null) {
             GT_Values.RA.addFluidSolidifierRecipe(
-                    toolRod,
-                    fluid,
-                    DualMaterialToolPart
-                            .createDualMaterial(TinkerWeaponry.partBolt, toolRodMaterialID, arrowheadMaterialID),
-                    80 + (toolRodMaterial.durability + arrowheadMaterial.durability) * 2,
-                    Math.max(getPowerRequired(toolRodMaterial), getPowerRequired(arrowheadMaterial)));
+                toolRod,
+                fluid,
+                DualMaterialToolPart
+                    .createDualMaterial(TinkerWeaponry.partBolt, toolRodMaterialID, arrowheadMaterialID),
+                80 + (toolRodMaterial.durability + arrowheadMaterial.durability) * 2,
+                Math.max(getPowerRequired(toolRodMaterial), getPowerRequired(arrowheadMaterial)));
         }
     }
 
@@ -508,80 +516,80 @@ public class TGregRecipeRegistry {
         addTGregToolRecipe(TinkerTools.battlesign, PartTypes.SignHead, PartTypes.ToolRod);
 
         addTGregToolRecipe(
-                TinkerTools.scythe,
-                PartTypes.ScytheHead,
-                PartTypes.ToughRod,
-                PartTypes.ToughBind,
-                PartTypes.ToughRod);
+            TinkerTools.scythe,
+            PartTypes.ScytheHead,
+            PartTypes.ToughRod,
+            PartTypes.ToughBind,
+            PartTypes.ToughRod);
         addTGregToolRecipe(
-                TinkerTools.lumberaxe,
-                PartTypes.LumberHead,
-                PartTypes.ToughRod,
-                PartTypes.LargePlate,
-                PartTypes.ToughBind);
+            TinkerTools.lumberaxe,
+            PartTypes.LumberHead,
+            PartTypes.ToughRod,
+            PartTypes.LargePlate,
+            PartTypes.ToughBind);
         addTGregToolRecipe(
-                TinkerTools.cleaver,
-                PartTypes.LargeSwordBlade,
-                PartTypes.ToughRod,
-                PartTypes.LargePlate,
-                PartTypes.ToughRod);
+            TinkerTools.cleaver,
+            PartTypes.LargeSwordBlade,
+            PartTypes.ToughRod,
+            PartTypes.LargePlate,
+            PartTypes.ToughRod);
         addTGregToolRecipe(
-                TinkerTools.excavator,
-                PartTypes.ExcavatorHead,
-                PartTypes.ToughRod,
-                PartTypes.LargePlate,
-                PartTypes.ToughBind);
+            TinkerTools.excavator,
+            PartTypes.ExcavatorHead,
+            PartTypes.ToughRod,
+            PartTypes.LargePlate,
+            PartTypes.ToughBind);
         addTGregToolRecipe(
-                TinkerTools.hammer,
-                PartTypes.HammerHead,
-                PartTypes.ToughRod,
-                PartTypes.LargePlate,
-                PartTypes.LargePlate);
+            TinkerTools.hammer,
+            PartTypes.HammerHead,
+            PartTypes.ToughRod,
+            PartTypes.LargePlate,
+            PartTypes.LargePlate);
         addTGregToolRecipe(
-                TinkerTools.battleaxe,
-                PartTypes.LumberHead,
-                PartTypes.ToughRod,
-                PartTypes.LumberHead,
-                PartTypes.ToughBind);
+            TinkerTools.battleaxe,
+            PartTypes.LumberHead,
+            PartTypes.ToughRod,
+            PartTypes.LumberHead,
+            PartTypes.ToughBind);
 
         if (TConstruct.pulsar.isPulseLoaded("Tinkers' Weaponry")) {
             ToolBuilder.addCustomToolRecipe(
-                    new TGregBowRecipe(
-                            partMap.get(PartTypes.BowLimb),
-                            TinkerWeaponry.bowstring,
-                            partMap.get(PartTypes.BowLimb),
-                            TinkerWeaponry.shortbow));
+                new TGregBowRecipe(
+                    partMap.get(PartTypes.BowLimb),
+                    TinkerWeaponry.bowstring,
+                    partMap.get(PartTypes.BowLimb),
+                    TinkerWeaponry.shortbow));
             ToolBuilder.addCustomToolRecipe(
-                    new TGregBowRecipe(
-                            partMap.get(PartTypes.BowLimb),
-                            TinkerWeaponry.bowstring,
-                            partMap.get(PartTypes.BowLimb),
-                            partMap.get(PartTypes.LargePlate),
-                            TinkerWeaponry.longbow));
+                new TGregBowRecipe(
+                    partMap.get(PartTypes.BowLimb),
+                    TinkerWeaponry.bowstring,
+                    partMap.get(PartTypes.BowLimb),
+                    partMap.get(PartTypes.LargePlate),
+                    TinkerWeaponry.longbow));
             ToolBuilder.addCustomToolRecipe(
-                    new TGregBowRecipe(
-                            partMap.get(PartTypes.CrossbowLimb),
-                            partMap.get(PartTypes.CrossbowBody),
-                            TinkerWeaponry.bowstring,
-                            partMap.get(PartTypes.ToughBind),
-                            TinkerWeaponry.crossbow));
+                new TGregBowRecipe(
+                    partMap.get(PartTypes.CrossbowLimb),
+                    partMap.get(PartTypes.CrossbowBody),
+                    TinkerWeaponry.bowstring,
+                    partMap.get(PartTypes.ToughBind),
+                    TinkerWeaponry.crossbow));
 
             {
                 TGregAmmoRecipe arrowRecipe = new TGregAmmoRecipe(
-                        partMap.get(PartTypes.ArrowHead),
-                        partMap.get(PartTypes.ToolRod),
-                        TinkerWeaponry.fletching,
-                        TinkerWeaponry.arrowAmmo);
+                    partMap.get(PartTypes.ArrowHead),
+                    partMap.get(PartTypes.ToolRod),
+                    TinkerWeaponry.fletching,
+                    TinkerWeaponry.arrowAmmo);
                 arrowRecipe.addHandleItem(TinkerWeaponry.partArrowShaft);
                 ToolBuilder.addCustomToolRecipe(arrowRecipe);
             }
             ToolBuilder.addCustomToolRecipe(
-                    new TGregToolRecipe(
-                            partMap.get(PartTypes.Shuriken),
-                            partMap.get(PartTypes.Shuriken),
-                            partMap.get(PartTypes.Shuriken),
-                            partMap.get(PartTypes.Shuriken),
-                            TinkerWeaponry.shuriken));
+                new TGregToolRecipe(
+                    partMap.get(PartTypes.Shuriken),
+                    partMap.get(PartTypes.Shuriken),
+                    partMap.get(PartTypes.Shuriken),
+                    partMap.get(PartTypes.Shuriken),
+                    TinkerWeaponry.shuriken));
             addTGregToolRecipe(TinkerWeaponry.throwingknife, PartTypes.KnifeBlade, PartTypes.ToolRod);
             addTGregToolRecipe(TinkerWeaponry.javelin, PartTypes.ArrowHead, PartTypes.ToughRod, PartTypes.ToughRod);
         }
@@ -593,18 +601,18 @@ public class TGregRecipeRegistry {
 
     private void addTGregToolRecipe(ToolCore output, PartTypes head, PartTypes handle, PartTypes accessory) {
         ToolBuilder.addCustomToolRecipe(
-                new TGregToolRecipe(partMap.get(head), partMap.get(handle), partMap.get(accessory), output));
+            new TGregToolRecipe(partMap.get(head), partMap.get(handle), partMap.get(accessory), output));
     }
 
     private void addTGregToolRecipe(ToolCore output, PartTypes head, PartTypes handle, PartTypes accessory,
-            PartTypes extra) {
+        PartTypes extra) {
         ToolBuilder.addCustomToolRecipe(
-                new TGregToolRecipe(
-                        partMap.get(head),
-                        partMap.get(handle),
-                        partMap.get(accessory),
-                        partMap.get(extra),
-                        output));
+            new TGregToolRecipe(
+                partMap.get(head),
+                partMap.get(handle),
+                partMap.get(accessory),
+                partMap.get(extra),
+                output));
     }
 
     public void registerCastRecipes() {
@@ -616,17 +624,17 @@ public class TGregRecipeRegistry {
                 if (stack != null && stack.getItem() != null) {
                     for (Materials m : castingMaterials) {
                         GT_Values.RA.addExtruderRecipe(
-                                GT_OreDictUnificator.get(OrePrefixes.plate, m, 1),
-                                new ItemStack(p.getCounterpart(), 0, Short.MAX_VALUE),
-                                stack.copy(),
-                                800,
-                                getPowerRequired(m));
+                            GT_OreDictUnificator.get(OrePrefixes.plate, m, 1),
+                            new ItemStack(p.getCounterpart(), 0, Short.MAX_VALUE),
+                            stack.copy(),
+                            800,
+                            getPowerRequired(m));
                         GT_Values.RA.addExtruderRecipe(
-                                GT_OreDictUnificator.get(OrePrefixes.plate, m, 1),
-                                new ItemStack(TGregworks.registry.toolParts.get(p), 0, Short.MAX_VALUE),
-                                stack.copy(),
-                                800,
-                                getPowerRequired(m));
+                            GT_OreDictUnificator.get(OrePrefixes.plate, m, 1),
+                            new ItemStack(TGregworks.registry.toolParts.get(p), 0, Short.MAX_VALUE),
+                            stack.copy(),
+                            800,
+                            getPowerRequired(m));
                     }
                 }
             }
@@ -634,11 +642,11 @@ public class TGregRecipeRegistry {
                 FluidStack molten = m.getMolten(GT_Values.L);
                 if (molten != null && molten.getFluid() != null) {
                     GT_Values.RA.addExtruderRecipe(
-                            GT_OreDictUnificator.get(OrePrefixes.plate, m, 1),
-                            new ItemStack(TGregworks.registry.toolParts.get(PartTypes.Chunk), 0, Short.MAX_VALUE),
-                            new ItemStack(TGregworks.shardCast, 1, 0),
-                            800,
-                            getPowerRequired(m));
+                        GT_OreDictUnificator.get(OrePrefixes.plate, m, 1),
+                        new ItemStack(TGregworks.registry.toolParts.get(PartTypes.Chunk), 0, Short.MAX_VALUE),
+                        new ItemStack(TGregworks.shardCast, 1, 0),
+                        800,
+                        getPowerRequired(m));
                 }
             }
         }
@@ -651,17 +659,17 @@ public class TGregRecipeRegistry {
                         FluidStack molten = m.getMolten(GT_Values.L);
                         if (molten != null && molten.getFluid() != null) {
                             GT_Values.RA.addFluidSolidifierRecipe(
-                                    new ItemStack(p.getCounterpart(), 0, Short.MAX_VALUE),
-                                    molten.copy(),
-                                    stack.copy(),
-                                    800,
-                                    getPowerRequired(m));
+                                new ItemStack(p.getCounterpart(), 0, Short.MAX_VALUE),
+                                molten.copy(),
+                                stack.copy(),
+                                800,
+                                getPowerRequired(m));
                             GT_Values.RA.addFluidSolidifierRecipe(
-                                    new ItemStack(TGregworks.registry.toolParts.get(p), 0, Short.MAX_VALUE),
-                                    molten.copy(),
-                                    stack.copy(),
-                                    800,
-                                    getPowerRequired(m));
+                                new ItemStack(TGregworks.registry.toolParts.get(p), 0, Short.MAX_VALUE),
+                                molten.copy(),
+                                stack.copy(),
+                                800,
+                                getPowerRequired(m));
                         }
                     }
                 }
@@ -670,11 +678,11 @@ public class TGregRecipeRegistry {
                 FluidStack molten = m.getMolten(GT_Values.L);
                 if (molten != null && molten.getFluid() != null) {
                     GT_Values.RA.addFluidSolidifierRecipe(
-                            new ItemStack(TGregworks.registry.toolParts.get(PartTypes.Chunk), 0, Short.MAX_VALUE),
-                            molten.copy(),
-                            new ItemStack(TGregworks.shardCast, 1, 0),
-                            800,
-                            getPowerRequired(m));
+                        new ItemStack(TGregworks.registry.toolParts.get(PartTypes.Chunk), 0, Short.MAX_VALUE),
+                        molten.copy(),
+                        new ItemStack(TGregworks.shardCast, 1, 0),
+                        800,
+                        getPowerRequired(m));
                 }
             }
         }

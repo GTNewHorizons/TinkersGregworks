@@ -15,7 +15,7 @@ public class TGregFluidType extends FluidType {
     public final Materials material;
 
     public TGregFluidType(Materials m, Block block, int meta, int baseTemperature, Fluid fluid, boolean isToolpart,
-            int matID) {
+        int matID) {
         super(block, meta, baseTemperature, fluid, isToolpart);
         this.material = m;
         this.matID = matID;

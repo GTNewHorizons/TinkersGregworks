@@ -33,11 +33,11 @@ public class ItemTGregPart extends CraftingItem implements IToolPart {
 
     public ItemTGregPart(PartTypes p) {
         super(
-                toolMaterialNames.toArray(new String[toolMaterialNames.size()]),
-                buildTextureNames(p),
-                "parts/",
-                "tinker",
-                TGregworks.tab);
+            toolMaterialNames.toArray(new String[toolMaterialNames.size()]),
+            buildTextureNames(p),
+            "parts/",
+            "tinker",
+            TGregworks.tab);
         this.setHasSubtypes(true);
         this.setMaxDamage(0);
         this.type = p;
@@ -57,8 +57,10 @@ public class ItemTGregPart extends CraftingItem implements IToolPart {
             matName = Materials.get(data.getString("material")).mLocalizedName;
         }
 
-        String name = StatCollector
-                .translateToLocal("tgregworks.toolpart." + type.getPartName().replace(" ", "_").toLowerCase());
+        String name = StatCollector.translateToLocal(
+            "tgregworks.toolpart." + type.getPartName()
+                .replace(" ", "_")
+                .toLowerCase());
         matName = name.replaceAll("%%material", matName);
 
         if (stack.getItemDamage() == 0) {
@@ -171,8 +173,8 @@ public class ItemTGregPart extends CraftingItem implements IToolPart {
         super.addInformation(stack, player, tooltip, par4);
         if (stack.getItemDamage() == 0) {
             tooltip.add(
-                    EnumChatFormatting.GRAY.toString() + EnumChatFormatting.ITALIC.toString()
-                            + "Put this into your inventory to update it.");
+                EnumChatFormatting.GRAY.toString() + EnumChatFormatting.ITALIC.toString()
+                    + "Put this into your inventory to update it.");
         }
     }
 

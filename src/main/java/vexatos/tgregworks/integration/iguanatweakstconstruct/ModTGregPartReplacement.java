@@ -51,7 +51,8 @@ public class ModTGregPartReplacement extends ItemModifier {
         }
 
         ToolCore tool = (ToolCore) itemStack.getItem();
-        NBTTagCompound tags = itemStack.getTagCompound().getCompoundTag("InfiTool");
+        NBTTagCompound tags = itemStack.getTagCompound()
+            .getCompoundTag("InfiTool");
 
         // special tools can not be replaced
         if (tags.getBoolean("Special")) {
@@ -69,13 +70,13 @@ public class ModTGregPartReplacement extends ItemModifier {
                 return false;
             }
             if (tool.getHandleItem() != null && getToolPartMaterial(tags, HANDLE) == 1
-                    && tool.getHandleItem() != TinkerWeaponry.bowstring
-                    && tool.getHandleItem() != TinkerWeaponry.partArrowShaft) {
+                && tool.getHandleItem() != TinkerWeaponry.bowstring
+                && tool.getHandleItem() != TinkerWeaponry.partArrowShaft) {
                 return false;
             }
             if (tool.getAccessoryItem() != null && getToolPartMaterial(tags, ACCESSORY) == 1
-                    && tool.getAccessoryItem() != TinkerWeaponry.bowstring
-                    && tool.getAccessoryItem() != TinkerWeaponry.fletching) {
+                && tool.getAccessoryItem() != TinkerWeaponry.bowstring
+                && tool.getAccessoryItem() != TinkerWeaponry.fletching) {
                 return false;
             }
             if (tool.getExtraItem() != null && getToolPartMaterial(tags, EXTRA) == 1) {
@@ -202,7 +203,8 @@ public class ModTGregPartReplacement extends ItemModifier {
         // do all the stuff that we did in canModify again to obtain the necessary information :(
         ToolCore tool = (ToolCore) itemStack.getItem();
         ToolRecipe recipe = findRecipe(tool);
-        NBTTagCompound tags = itemStack.getTagCompound().getCompoundTag("InfiTool");
+        NBTTagCompound tags = itemStack.getTagCompound()
+            .getCompoundTag("InfiTool");
 
         // get item
         Item replacementPartItem = null;
@@ -217,8 +219,8 @@ public class ModTGregPartReplacement extends ItemModifier {
 
         if (tool == TinkerWeaponry.arrowAmmo) {
             if (replacementPartItem == Items.reeds || replacementPartItem == Items.blaze_rod
-                    || replacementPartItem == Items.bone
-                    || replacementPartItem == Items.stick) {
+                || replacementPartItem == Items.bone
+                || replacementPartItem == Items.stick) {
                 replacementPartItem = TinkerWeaponry.partArrowShaft;
             }
         }
@@ -239,7 +241,9 @@ public class ModTGregPartReplacement extends ItemModifier {
 
     private ToolRecipe findRecipe(ToolCore tool) {
         for (ToolRecipe r : ToolBuilder.instance.combos) {
-            if (r instanceof TGregToolRecipe && r.getType().getClass().equals(tool.getClass())) {
+            if (r instanceof TGregToolRecipe && r.getType()
+                .getClass()
+                .equals(tool.getClass())) {
                 return r;
             }
         }

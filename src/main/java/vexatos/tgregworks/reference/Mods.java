@@ -12,7 +12,7 @@ public class Mods {
     public static final String GregTech = "gregtech", TConstruct = "TConstruct";
 
     public static final String TiCTooltips = "TiCTooltips",
-            IguanaTweaksTConstruct = "IguanaTweaksTConstruct"/*
-                                                              * , TinkersTailor = "TinkersTailor"
-                                                              */;
+        IguanaTweaksTConstruct = "IguanaTweaksTConstruct"/*
+                                                          * , TinkersTailor = "TinkersTailor"
+                                                          */;
 }

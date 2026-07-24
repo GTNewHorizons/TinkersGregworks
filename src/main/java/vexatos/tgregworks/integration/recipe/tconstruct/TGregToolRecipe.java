@@ -42,7 +42,7 @@ public class TGregToolRecipe extends ToolRecipe {
     }
 
     public TGregToolRecipe(ItemTGregPart head, ItemTGregPart handle, ItemTGregPart accessory, ItemTGregPart extra,
-            ToolCore tool) {
+        ToolCore tool) {
         super(head, handle, accessory, extra, tool);
         this.newHeadList.add(head);
         this.newHandleList.add(handle);
@@ -70,7 +70,7 @@ public class TGregToolRecipe extends ToolRecipe {
     }
 
     protected TGregToolRecipe(ItemTGregPart head, ItemTGregPart handle, Item bowstring, ItemTGregPart extra,
-            ToolCore shortbow) {
+        ToolCore shortbow) {
         super(head, handle, bowstring, extra, shortbow);
         this.newHeadList.add(head);
         this.newHandleList.add(handle);
@@ -80,7 +80,7 @@ public class TGregToolRecipe extends ToolRecipe {
     }
 
     protected TGregToolRecipe(ItemTGregPart head, Item bowstring, ItemTGregPart accessory, ItemTGregPart extra,
-            ToolCore shortbow) {
+        ToolCore shortbow) {
         super(head, bowstring, accessory, extra, shortbow);
         this.newHeadList.add(head);
         if (accessory != null) {
@@ -134,7 +134,8 @@ public class TGregToolRecipe extends ToolRecipe {
             if ((part == input) && isEqualType(part, input)) {
                 return true;
             }
-            if (input == part.getType().getCounterpart()) {
+            if (input == part.getType()
+                .getCounterpart()) {
                 return true;
             }
         }
@@ -147,11 +148,12 @@ public class TGregToolRecipe extends ToolRecipe {
             if ((part == input) && isEqualType(part, input)) {
                 return true;
             }
-            if (input == part.getType().getCounterpart()) {
+            if (input == part.getType()
+                .getCounterpart()) {
                 return true;
             }
-            if (toolRod != null && part.getType().getCounterpart() == toolRod
-                    && (input == Items.stick || input == Items.bone)) {
+            if (toolRod != null && part.getType()
+                .getCounterpart() == toolRod && (input == Items.stick || input == Items.bone)) {
                 return true;
             }
         }
@@ -170,11 +172,12 @@ public class TGregToolRecipe extends ToolRecipe {
             if ((part == input) && isEqualType(part, input)) {
                 return true;
             }
-            if (input == part.getType().getCounterpart()) {
+            if (input == part.getType()
+                .getCounterpart()) {
                 return true;
             }
-            if (toolRod != null && part.getType().getCounterpart() == toolRod
-                    && (input == Items.stick || input == Items.bone)) {
+            if (toolRod != null && part.getType()
+                .getCounterpart() == toolRod && (input == Items.stick || input == Items.bone)) {
                 return true;
             }
         }
@@ -190,11 +193,12 @@ public class TGregToolRecipe extends ToolRecipe {
             if ((part == input) && isEqualType(part, input)) {
                 return true;
             }
-            if (input == part.getType().getCounterpart()) {
+            if (input == part.getType()
+                .getCounterpart()) {
                 return true;
             }
-            if (toolRod != null && part.getType().getCounterpart() == toolRod
-                    && (input == Items.stick || input == Items.bone)) {
+            if (toolRod != null && part.getType()
+                .getCounterpart() == toolRod && (input == Items.stick || input == Items.bone)) {
                 return true;
             }
         }
@@ -205,6 +209,7 @@ public class TGregToolRecipe extends ToolRecipe {
         if (input instanceof ItemTGregPart) {
             return part.getType() == ((ItemTGregPart) input).getType();
         }
-        return input == part.getType().getCounterpart();
+        return input == part.getType()
+            .getCounterpart();
     }
 }

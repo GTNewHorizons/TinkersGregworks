@@ -23,7 +23,7 @@ public class TGregBowRecipe extends TGregToolRecipe {
     }
 
     public TGregBowRecipe(ItemTGregPart head, ItemTGregPart handle, ItemTGregPart accessory, ItemTGregPart extra,
-            ToolCore tool) {
+        ToolCore tool) {
         super(head, handle, accessory, extra, tool);
     }
 
@@ -32,20 +32,20 @@ public class TGregBowRecipe extends TGregToolRecipe {
     }
 
     public TGregBowRecipe(ItemTGregPart head, ItemTGregPart handle, Item bowstring, ItemTGregPart extra,
-            ToolCore shortbow) {
+        ToolCore shortbow) {
         super(head, handle, bowstring, extra, shortbow);
     }
 
     public TGregBowRecipe(ItemTGregPart head, Item bowstring, ItemTGregPart accessory, ItemTGregPart extra,
-            ToolCore shortbow) {
+        ToolCore shortbow) {
         super(head, bowstring, accessory, extra, shortbow);
     }
 
     @Override
     public boolean validHead(Item input) {
         for (ItemTGregPart part : newHeadList) {
-            if (toolRod != null && part.getType().getCounterpart() == toolRod
-                    && (input == Items.stick || input == Items.bone)) {
+            if (toolRod != null && part.getType()
+                .getCounterpart() == toolRod && (input == Items.stick || input == Items.bone)) {
                 return true;
             }
         }
@@ -63,6 +63,6 @@ public class TGregBowRecipe extends TGregToolRecipe {
             return accessoryList.size() < 1;
         }
         return bowstring != null && accessoryList.contains(bowstring) && input == bowstring
-                || super.validAccessory(input);
+            || super.validAccessory(input);
     }
 }

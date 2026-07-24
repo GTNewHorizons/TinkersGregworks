@@ -23,6 +23,6 @@ public class TGregAmmoRecipe extends TGregToolRecipe {
     @Override
     public boolean validHandle(Item input) {
         return TinkerWeaponry.partArrowShaft != null && handleList.contains(TinkerWeaponry.partArrowShaft)
-                && input == TinkerWeaponry.partArrowShaft || super.validHandle(input);
+            && input == TinkerWeaponry.partArrowShaft || super.validHandle(input);
     }
 }

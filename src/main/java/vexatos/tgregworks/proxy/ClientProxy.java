@@ -13,7 +13,7 @@ public class ClientProxy extends CommonProxy {
     public void addToolRenderMappings() {
         for (Materials m : TGregworks.registry.toolMaterials) {
             TConstructClientRegistry
-                    .addMaterialRenderMapping(TGregworks.registry.matIDs.get(m), "tgregworks", "", true);
+                .addMaterialRenderMapping(TGregworks.registry.matIDs.get(m), "tgregworks", "", true);
         }
     }
 
