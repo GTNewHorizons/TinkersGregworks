@@ -6,7 +6,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import com.google.common.collect.HashMultimap;
 
 import gregtech.api.enums.Materials;
-import gregtech.api.util.GT_OreDictUnificator;
+import gregtech.api.util.GTOreDictUnificator;
 import vexatos.tgregworks.TGregworks;
 import vexatos.tgregworks.reference.PartTypes;
 import vexatos.tgregworks.util.TGregUtils;
@@ -65,7 +65,7 @@ public class TGregRepairRegistry {
 
         @Override
         public boolean matches(ItemStack input) {
-            return GT_OreDictUnificator.isItemStackInstanceOf(input, tag);
+            return GTOreDictUnificator.isItemStackInstanceOf(input, tag);
         }
     }
 

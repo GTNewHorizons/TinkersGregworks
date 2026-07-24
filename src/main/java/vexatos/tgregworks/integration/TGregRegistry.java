@@ -8,7 +8,7 @@ import java.util.List;
 import net.minecraftforge.common.config.Property;
 
 import cpw.mods.fml.common.registry.GameRegistry;
-import gregtech.api.GregTech_API;
+import gregtech.api.GregTechAPI;
 import gregtech.api.enums.Materials;
 import tconstruct.library.TConstructRegistry;
 import tconstruct.library.crafting.FluidType;
@@ -76,9 +76,9 @@ public class TGregRegistry {
 
     public void registerToolParts() {
         TGregworks.log.info("Registering TGregworks tool parts.");
-        List<Materials> gtMaterials = Arrays.asList(GregTech_API.sGeneratedMaterials);
+        List<Materials> gtMaterials = Arrays.asList(GregTechAPI.sGeneratedMaterials);
         for (Materials m : Materials.values()) {
-            if (((m.mTypes & 64) == 64) && !doesMaterialExist(m)
+            if (m.hasToolHeadItems() && !doesMaterialExist(m)
                 && gtMaterials.contains(m)
                 && TGregworks.config.get(Config.Category.Enable, m.mName, true)
                     .getBoolean(true)) {
@@ -108,7 +108,7 @@ public class TGregRegistry {
         TConstructRegistry.addToolMaterial(
             matID,
             m.mName,
-            m.mLocalizedName,
+            m.mDefaultLocalName,
             m.mToolQuality,
             (int) (m.mDurability * getGlobalMultiplier(Config.Durability) * getMultiplier(m, Config.Durability)), // Durability
             (int) (m.mToolSpeed * 100F
@@ -275,7 +275,7 @@ public class TGregRegistry {
 
     private boolean doesMaterialExist(Materials m) {
         return !addMaterialsAnyway && TConstructRegistry.toolMaterialStrings.containsKey(m.mName);
-        // && Arrays.asList(GregTech_API.sGeneratedMaterials).contains(m);
+        // && Arrays.asList(GregTechAPI.sGeneratedMaterials).contains(m);
     }
 
     public HashMap<PartTypes, ItemTGregPart> toolParts = new HashMap<PartTypes, ItemTGregPart>();
