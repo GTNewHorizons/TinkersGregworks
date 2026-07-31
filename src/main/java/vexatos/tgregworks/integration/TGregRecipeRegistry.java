@@ -9,11 +9,14 @@ import net.minecraft.util.MathHelper;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
+import com.ruling_0.materiallib.api.Material;
+
 import cpw.mods.fml.common.registry.GameRegistry;
 import gregtech.api.enums.GTValues;
-import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.enums.ToolDictNames;
+import gregtech.api.enums.materials.Materials;
+import gregtech.api.material.MaterialUtils;
 import gregtech.api.recipe.RecipeMaps;
 import gregtech.api.util.GTOreDictUnificator;
 import tconstruct.TConstruct;
@@ -158,8 +161,9 @@ public class TGregRecipeRegistry {
                 .error("Invalid energy multiplier found in config: " + energyMultiplier + ". Reverting back to 1.");
             energyMultiplier = 1;
         }
-        for (Materials m : TGregworks.registry.toolMaterials) {
+        for (Material m : TGregworks.registry.toolMaterials) {
             final int powerRequired = getPowerRequired(m);
+            final int durability = MaterialUtils.durability(m);
             for (PartTypes p : PartTypes.VALUES) {
                 ItemStack input = TGregUtils.newItemStack(m, p, 1);
                 ItemStack pattern = p.getPatternItem();
@@ -182,19 +186,19 @@ public class TGregRecipeRegistry {
                             GTValues.RA.stdBuilder()
                                 .itemInputs(stack.copy(), pattern.copy())
                                 .itemOutputs(input.copy())
-                                .duration(Math.max(80, m.mDurability * price))
+                                .duration(Math.max(80, durability * price))
                                 .eut(powerRequired)
                                 .addTo(RecipeMaps.extruderRecipes);
                         }
                         {
-                            FluidStack molten = m.getMolten((GTValues.L / 2) * p.getPrice());
+                            FluidStack molten = TGregUtils.getMolten(m, (GTValues.L / 2) * p.getPrice());
                             if (molten != null && molten.getFluid() != null) {
                                 if (addSolidifierRecipes) {
                                     GTValues.RA.stdBuilder()
                                         .itemInputs(pattern.copy())
                                         .fluidInputs(molten.copy())
                                         .itemOutputs(input.copy())
-                                        .duration(Math.max(80, m.mDurability * price))
+                                        .duration(Math.max(80, durability * price))
                                         .eut(powerRequired)
                                         .addTo(RecipeMaps.fluidSolidifierRecipes);
                                 }
@@ -202,7 +206,7 @@ public class TGregRecipeRegistry {
                                     GTValues.RA.stdBuilder()
                                         .itemInputs(input.copy())
                                         .fluidOutputs(molten.copy())
-                                        .duration(Math.max(80, m.mDurability * price))
+                                        .duration(Math.max(80, durability * price))
                                         .eut(powerRequired)
                                         .addTo(RecipeMaps.fluidExtractionRecipes);
                                 }
@@ -216,7 +220,7 @@ public class TGregRecipeRegistry {
                                 GTValues.RA.stdBuilder()
                                     .itemInputs(stack.copy(), pattern.copy())
                                     .itemOutputs(input.copy())
-                                    .duration(80 + (m.mDurability * price))
+                                    .duration(80 + (durability * price))
                                     .eut(powerRequired)
                                     .addTo(RecipeMaps.extruderRecipes);
                             }
@@ -224,7 +228,7 @@ public class TGregRecipeRegistry {
                                 GTValues.RA.stdBuilder()
                                     .itemInputs(input.copy(), new ItemStack(TGregworks.shardCast, 0, 0))
                                     .itemOutputs(stack.copy())
-                                    .duration(80 + (m.mDurability * price))
+                                    .duration(80 + (durability * price))
                                     .eut(powerRequired)
                                     .addTo(RecipeMaps.alloySmelterRecipes);
                             }
@@ -242,20 +246,20 @@ public class TGregRecipeRegistry {
                     GTValues.RA.stdBuilder()
                         .itemInputs(ingotStack, new ItemStack(TGregworks.shardCast, 0, 0))
                         .itemOutputs(stack.copy())
-                        .duration(Math.max(160, m.mDurability))
+                        .duration(Math.max(160, durability))
                         .eut(powerRequired)
                         .addTo(RecipeMaps.extruderRecipes);
                 }
                 ItemStack halfStack = stack.copy();
                 halfStack.stackSize = 1;
-                FluidStack molten = m.getMolten(GTValues.L / 2);
+                FluidStack molten = TGregUtils.getMolten(m, GTValues.L / 2);
                 if (molten != null && molten.getFluid() != null) {
                     if (addMoltenToShard) {
                         GTValues.RA.stdBuilder()
                             .itemInputs(new ItemStack(TGregworks.shardCast, 0, 0))
                             .fluidInputs(molten.copy())
                             .itemOutputs(halfStack.copy())
-                            .duration(Math.max(160, m.mDurability))
+                            .duration(Math.max(160, durability))
                             .eut(powerRequired)
                             .addTo(RecipeMaps.fluidSolidifierRecipes);
                     }
@@ -263,7 +267,7 @@ public class TGregRecipeRegistry {
                         GTValues.RA.stdBuilder()
                             .itemInputs(halfStack.copy())
                             .fluidOutputs(molten.copy())
-                            .duration(Math.max(160, m.mDurability))
+                            .duration(Math.max(160, durability))
                             .eut(powerRequired)
                             .addTo(RecipeMaps.fluidExtractionRecipes);
                     }
@@ -274,7 +278,7 @@ public class TGregRecipeRegistry {
                             stack.copy(),
                             new ItemStack(MetalPatterns.ingot.getPatternItem(), 0, MetalPatterns.ingot.ordinal()))
                         .itemOutputs(ingotStack.copy())
-                        .duration(Math.max(160, m.mDurability))
+                        .duration(Math.max(160, durability))
                         .eut(powerRequired)
                         .addTo(RecipeMaps.alloySmelterRecipes);
                 }
@@ -346,11 +350,11 @@ public class TGregRecipeRegistry {
         }
     }
 
-    private int getPowerRequired(Materials m) {
-        return Math.round(m.mToolQuality < 3 ? (30 * energyMultiplier) : (120 * energyMultiplier));
+    private int getPowerRequired(Material m) {
+        return Math.round(MaterialUtils.toolQuality(m) < 3 ? (30 * energyMultiplier) : (120 * energyMultiplier));
     }
 
-    private ItemStack getChunk(Materials m, int amount) {
+    private ItemStack getChunk(Material m, int amount) {
         return TGregUtils.newItemStack(m, PartTypes.Chunk, amount);
     }
 
@@ -365,7 +369,7 @@ public class TGregRecipeRegistry {
             Config.concat(Config.Category.Enable, Config.Category.Recipes),
             false,
             "Allow repairing TGregworks tools with ingots");
-        for (Materials m : TGregworks.registry.toolMaterials) {
+        for (Material m : TGregworks.registry.toolMaterials) {
             Integer matID = TGregworks.registry.matIDs.get(m);
             if (matID != null) {
                 ToolMaterial mat = TConstructRegistry.getMaterial(matID);
@@ -385,18 +389,10 @@ public class TGregRecipeRegistry {
                     if (addIngotRepair) {
                         ArrayList<ItemStack> ingots = GTOreDictUnificator.getOres(OrePrefixes.ingot, m);
                         if (!ingots.isEmpty()) {
-                            TGregworks.repair.registerOreDictRepairMaterial(
-                                m,
-                                OrePrefixes.ingot.get(m)
-                                    .toString(),
-                                2);
+                            TGregworks.repair.registerOreDictRepairMaterial(m, OrePrefixes.ingot.oreDictName(m), 2);
                         } else if (addGemToolPartRecipes) {
                             ingots.addAll(GTOreDictUnificator.getOres(OrePrefixes.gem, m));
-                            TGregworks.repair.registerOreDictRepairMaterial(
-                                m,
-                                OrePrefixes.gem.get(m)
-                                    .toString(),
-                                2);
+                            TGregworks.repair.registerOreDictRepairMaterial(m, OrePrefixes.gem.oreDictName(m), 2);
                         }
                         for (ItemStack ingot : ingots) {
                             if (ingot != null && ingot.getItem() != null) {
@@ -627,13 +623,13 @@ public class TGregRecipeRegistry {
     }
 
     public void registerCastRecipes() {
-        Materials[] castingMaterials = new Materials[] { Materials.Brass, Materials.Gold };
+        Material[] castingMaterials = new Material[] { Materials.Brass, Materials.Gold };
 
         if (addCastExtruderRecipes) {
             for (PartTypes p : PartTypes.VALUES) {
                 ItemStack stack = p.getPatternItem();
                 if (stack != null && stack.getItem() != null) {
-                    for (Materials m : castingMaterials) {
+                    for (Material m : castingMaterials) {
                         GTValues.RA.stdBuilder()
                             .itemInputs(
                                 GTOreDictUnificator.get(OrePrefixes.plate, m, 1),
@@ -653,8 +649,8 @@ public class TGregRecipeRegistry {
                     }
                 }
             }
-            for (Materials m : castingMaterials) {
-                FluidStack molten = m.getMolten(GTValues.L);
+            for (Material m : castingMaterials) {
+                FluidStack molten = TGregUtils.getMolten(m, GTValues.L);
                 if (molten != null && molten.getFluid() != null) {
                     GTValues.RA.stdBuilder()
                         .itemInputs(
@@ -672,8 +668,8 @@ public class TGregRecipeRegistry {
                 ItemStack stack = p.getPatternItem();
                 if (stack != null && stack.getItem() != null && p.getCounterpart() != null) {
                     stack.stackSize = 1;
-                    for (Materials m : castingMaterials) {
-                        FluidStack molten = m.getMolten(GTValues.L);
+                    for (Material m : castingMaterials) {
+                        FluidStack molten = TGregUtils.getMolten(m, GTValues.L);
                         if (molten != null && molten.getFluid() != null) {
                             GTValues.RA.stdBuilder()
                                 .itemInputs(new ItemStack(p.getCounterpart(), 0, Short.MAX_VALUE))
@@ -693,8 +689,8 @@ public class TGregRecipeRegistry {
                     }
                 }
             }
-            for (Materials m : castingMaterials) {
-                FluidStack molten = m.getMolten(GTValues.L);
+            for (Material m : castingMaterials) {
+                FluidStack molten = TGregUtils.getMolten(m, GTValues.L);
                 if (molten != null && molten.getFluid() != null) {
                     GTValues.RA.stdBuilder()
                         .itemInputs(

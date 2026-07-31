@@ -15,9 +15,12 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
+import com.ruling_0.materiallib.api.Material;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import gregtech.api.enums.Materials;
+import gregtech.api.material.LegacyNameDomain;
+import gregtech.api.material.MaterialUtils;
 import mantle.items.abstracts.CraftingItem;
 import tconstruct.library.util.IToolPart;
 import vexatos.tgregworks.TGregworks;
@@ -50,12 +53,9 @@ public class ItemTGregPart extends CraftingItem implements IToolPart {
     @Override
     public String getItemStackDisplayName(ItemStack stack) {
         NBTTagCompound data = TGregUtils.getTagCompound(stack);
-        String matName;
-        if (!data.hasKey("material") || Materials.get(data.getString("material")) == Materials._NULL) {
-            matName = StatCollector.translateToLocal("tgregworks.materials.unknown");
-        } else {
-            matName = Materials.get(data.getString("material")).mDefaultLocalName;
-        }
+        Material m = data.hasKey("material") ? LegacyNameDomain.lookup(data.getString("material")) : null;
+        String matName = m == null ? StatCollector.translateToLocal("tgregworks.materials.unknown")
+            : MaterialUtils.localName(m);
 
         String name = StatCollector.translateToLocal(
             "tgregworks.toolpart." + type.getPartName()
@@ -73,15 +73,8 @@ public class ItemTGregPart extends CraftingItem implements IToolPart {
     @Override
     public String getUnlocalizedName(ItemStack stack) {
         NBTTagCompound data = TGregUtils.getTagCompound(stack);
-        String matName;
-        if (!data.hasKey("material") || Materials.get(data.getString("material")) == Materials._NULL) {
-            matName = "Unknown";
-        } else {
-            matName = Materials.get(data.getString("material")).mDefaultLocalName;
-        }
-        // return StatCollector.translateToLocal("tgregworks.toolpart." + PartTypes.getFromID(stack.getItemDamage()) +
-        // "." + matName);
-        return matName;
+        Material m = data.hasKey("material") ? LegacyNameDomain.lookup(data.getString("material")) : null;
+        return m == null ? "Unknown" : MaterialUtils.localName(m);
     }
 
     @Override
@@ -112,10 +105,10 @@ public class ItemTGregPart extends CraftingItem implements IToolPart {
     @SuppressWarnings("unchecked")
     @Override
     public void getSubItems(Item b, CreativeTabs tab, List list) {
-        for (Materials m : TGregworks.registry.toolMaterials) {
+        for (Material m : TGregworks.registry.toolMaterials) {
             ItemStack stack = new ItemStack(b, 1, TGregworks.registry.matIDs.get(m));
             NBTTagCompound data = TGregUtils.getTagCompound(stack);
-            data.setString("material", m.mName);
+            data.setString("material", MaterialUtils.internalName(m));
             stack.setTagCompound(data);
             list.add(stack);
         }
@@ -129,7 +122,6 @@ public class ItemTGregPart extends CraftingItem implements IToolPart {
         // if(!data.hasKey("material")) {
         // return icons[meta];
         // }
-        // Materials m = Materials.get(data.getString("material"));
         return icons[0];
     }
 
@@ -158,7 +150,7 @@ public class ItemTGregPart extends CraftingItem implements IToolPart {
         if (!data.hasKey("material")) {
             return;
         }
-        Materials m = Materials.get(data.getString("material"));
+        Material m = LegacyNameDomain.lookup(data.getString("material"));
         if (m != null) {
             Integer matID = TGregworks.registry.matIDs.get(m);
             if (matID != null && matID != stack.getItemDamage()) {
@@ -191,22 +183,9 @@ public class ItemTGregPart extends CraftingItem implements IToolPart {
      */
     public static short[] getRGBa(ItemStack stack) {
         NBTTagCompound data = TGregUtils.getTagCompound(stack);
-        if (!data.hasKey("material")) {
-            return Materials._NULL.mRGBa;
-        }
-        Materials m = Materials.get(data.getString("material"));
-        if (m == null || m == Materials._NULL) {
-            return Materials._NULL.mRGBa;
-        }
-        for (byte i = 0; i < m.mRGBa.length; i++) {
-            if (m.mRGBa[i] > 255) {
-                m.mRGBa[i] = 255;
-            }
-            if (m.mRGBa[i] < 0) {
-                m.mRGBa[i] = 0;
-            }
-        }
-        return m.mRGBa;
+        short[] rgba = data.hasKey("material") ? MaterialUtils.rgba(LegacyNameDomain.lookup(data.getString("material")))
+            : null;
+        return rgba != null ? rgba : new short[] { 255, 255, 255, 255 };
     }
 
     @Override
