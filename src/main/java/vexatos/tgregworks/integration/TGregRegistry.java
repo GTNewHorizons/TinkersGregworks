@@ -117,8 +117,6 @@ public class TGregRegistry {
         }
         configProps.clear();
 
-        TGregworks.log.info("Registered {} TGregworks tool materials.", toolMaterials.size());
-
         ItemTGregPart.toolMaterialNames = toolMaterialNames;
     }
 
