@@ -48,6 +48,9 @@ public class TGregRegistry {
     }
 
     public final HashMap<Material, Property> configProps = new HashMap<>();
+
+    /// Every material id the config already holds. It stays populated past preInit so that materials registered
+    /// later cannot be handed an id a stored entry has reserved.
     public final ArrayList<Integer> configIDs = new ArrayList<>();
 
     public int getMaterialID(Material m) {
@@ -83,6 +86,11 @@ public class TGregRegistry {
 
     public void registerToolParts() {
         TGregworks.log.info("Registering TGregworks tool parts.");
+        for (Property stored : TGregworks.config.getCategory(Config.onMaterial(Config.MaterialID))
+            .getValues()
+            .values()) {
+            configIDs.add(stored.getInt());
+        }
         for (Material m : MaterialLibAPI.getMaterials()) {
             if (!LegacyNameDomain.contains(m) || !MaterialUtils.generates(m, GTMaterialGenerationFlag.TOOL_HEAD)
                 || MaterialUtils.oldSubId(m) < 0
@@ -97,7 +105,6 @@ public class TGregRegistry {
             toolMaterials.add(m);
             Property configProp = TGregworks.config.get(Config.onMaterial(Config.MaterialID), name, 0, null, 0, 100000);
             configProps.put(m, configProp);
-            configIDs.add(configProp.getInt());
         }
         for (Material m : toolMaterials) {
             toolMaterialNames.add(MaterialUtils.localName(m));
@@ -109,7 +116,6 @@ public class TGregRegistry {
             materialIDMap.put(matID, m);
         }
         configProps.clear();
-        configIDs.clear();
 
         TGregworks.log.info("Registered {} TGregworks tool materials.", toolMaterials.size());
 
