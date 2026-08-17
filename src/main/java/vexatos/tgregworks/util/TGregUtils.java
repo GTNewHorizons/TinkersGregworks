@@ -59,12 +59,23 @@ public class TGregUtils {
         return stack;
     }
 
-    /// The material's molten fluid at `amount`, or null when it has no molten slot. Resolved through
-    /// [MaterialUtils#moltenOf] rather than [MaterialUtils#molten] so the recipe loaders see exactly the
-    /// fluids [vexatos.tgregworks.integration.TGregRegistry#registerFluids] registered a tool-part fluid type
-    /// for.
+    /// The material's molten fluid at `amount`, or null when it has no molten slot.
+    /// [MaterialUtils#molten] is not interchangeable here: its shape fallback also answers for materials
+    /// [vexatos.tgregworks.integration.TGregRegistry#registerFluids] registers no tool-part fluid type for.
     public static FluidStack getMolten(Material m, long amount) {
         Fluid molten = MaterialUtils.moltenOf(m);
         return molten == null ? null : new FluidStack(molten, (int) amount);
+    }
+
+    /// The material named by `stack`'s NBT, or null when it carries no material tag or an unregistered name.
+    public static Material getMaterial(ItemStack stack) {
+        NBTTagCompound data = getTagCompound(stack);
+        return data.hasKey("material") ? LegacyNameDomain.lookup(data.getString("material")) : null;
+    }
+
+    /// The material's tint as `[r, g, b, a]`, opaque white for a material with no tint or none at all.
+    public static short[] getRGBa(Material m) {
+        short[] rgba = MaterialUtils.rgba(m);
+        return rgba != null ? rgba : new short[] { 255, 255, 255, 255 };
     }
 }

@@ -52,8 +52,7 @@ public class ItemTGregPart extends CraftingItem implements IToolPart {
 
     @Override
     public String getItemStackDisplayName(ItemStack stack) {
-        NBTTagCompound data = TGregUtils.getTagCompound(stack);
-        Material m = data.hasKey("material") ? LegacyNameDomain.lookup(data.getString("material")) : null;
+        Material m = TGregUtils.getMaterial(stack);
         String matName = m == null ? StatCollector.translateToLocal("tgregworks.materials.unknown")
             : MaterialUtils.localName(m);
 
@@ -72,8 +71,7 @@ public class ItemTGregPart extends CraftingItem implements IToolPart {
 
     @Override
     public String getUnlocalizedName(ItemStack stack) {
-        NBTTagCompound data = TGregUtils.getTagCompound(stack);
-        Material m = data.hasKey("material") ? LegacyNameDomain.lookup(data.getString("material")) : null;
+        Material m = TGregUtils.getMaterial(stack);
         return m == null ? "Unknown" : MaterialUtils.localName(m);
     }
 
@@ -182,10 +180,7 @@ public class ItemTGregPart extends CraftingItem implements IToolPart {
      * @return the Color Modulation the Material is going to be rendered with.
      */
     public static short[] getRGBa(ItemStack stack) {
-        NBTTagCompound data = TGregUtils.getTagCompound(stack);
-        short[] rgba = data.hasKey("material") ? MaterialUtils.rgba(LegacyNameDomain.lookup(data.getString("material")))
-            : null;
-        return rgba != null ? rgba : new short[] { 255, 255, 255, 255 };
+        return TGregUtils.getRGBa(TGregUtils.getMaterial(stack));
     }
 
     @Override

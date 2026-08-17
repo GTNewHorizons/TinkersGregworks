@@ -23,6 +23,7 @@ import vexatos.tgregworks.integration.recipe.tconstruct.TGregFluidType;
 import vexatos.tgregworks.item.ItemTGregPart;
 import vexatos.tgregworks.reference.Config;
 import vexatos.tgregworks.reference.PartTypes;
+import vexatos.tgregworks.util.TGregUtils;
 
 /**
  * @author Vexatos
@@ -49,8 +50,8 @@ public class TGregRegistry {
 
     public final HashMap<Material, Property> configProps = new HashMap<>();
 
-    /// Every material id the config already holds. It stays populated past preInit so that materials registered
-    /// later cannot be handed an id a stored entry has reserved.
+    /// Every material id the config already holds. Not cleared once [#registerToolParts] returns: a material
+    /// registered later must not be handed an id a stored entry reserves.
     public final ArrayList<Integer> configIDs = new ArrayList<>();
 
     public int getMaterialID(Material m) {
@@ -122,7 +123,7 @@ public class TGregRegistry {
 
     public void addToolMaterial(int matID, Material m) {
         final int toolQuality = MaterialUtils.toolQuality(m);
-        final short[] rgba = rgba(m);
+        final short[] rgba = TGregUtils.getRGBa(m);
         TConstructRegistry.addToolMaterial(
             matID,
             MaterialUtils.internalName(m),
@@ -166,11 +167,6 @@ public class TGregRegistry {
      */
     private static int sanitizeToolQuality(int toolQuality) {
         return Math.max(toolQuality, 1);
-    }
-
-    private static short[] rgba(Material m) {
-        short[] rgba = MaterialUtils.rgba(m);
-        return rgba != null ? rgba : new short[] { 255, 255, 255, 255 };
     }
 
     public HashMap<Material, TGregFluidType> toolMaterialFluidTypes = new HashMap<Material, TGregFluidType>();
