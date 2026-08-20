@@ -50,8 +50,8 @@ public class TGregRegistry {
 
     public final HashMap<Material, Property> configProps = new HashMap<>();
 
-    /// Every material id the config already holds. Not cleared once [#registerToolParts] returns: a material
-    /// registered later must not be handed an id a stored entry reserves.
+    /// Every material id the config holds, including those of materials not registered this run.
+    /// [#getLatestAvailableNumber] skips them for the lifetime of the registry.
     public final ArrayList<Integer> configIDs = new ArrayList<>();
 
     public int getMaterialID(Material m) {

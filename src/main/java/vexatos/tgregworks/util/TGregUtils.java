@@ -59,9 +59,9 @@ public class TGregUtils {
         return stack;
     }
 
-    /// The material's molten fluid at `amount`, or null when it has no molten slot.
-    /// [MaterialUtils#molten] is not interchangeable here: its shape fallback also answers for materials
-    /// [vexatos.tgregworks.integration.TGregRegistry#registerFluids] registers no tool-part fluid type for.
+    /// The material's molten fluid at `amount`, or null when its molten slot is unset. Not
+    /// [MaterialUtils#molten]: its shape fallback answers for materials that
+    /// [vexatos.tgregworks.integration.TGregRegistry#registerFluids] gives no tool-part fluid type.
     public static FluidStack getMolten(Material m, long amount) {
         Fluid molten = MaterialUtils.moltenOf(m);
         return molten == null ? null : new FluidStack(molten, (int) amount);
@@ -73,7 +73,7 @@ public class TGregUtils {
         return data.hasKey("material") ? LegacyNameDomain.lookup(data.getString("material")) : null;
     }
 
-    /// The material's tint as `[r, g, b, a]`, opaque white for a material with no tint or none at all.
+    /// The material's tint as `[r, g, b, a]`. Opaque white for a null material or one that declares no tint.
     public static short[] getRGBa(Material m) {
         short[] rgba = MaterialUtils.rgba(m);
         return rgba != null ? rgba : new short[] { 255, 255, 255, 255 };

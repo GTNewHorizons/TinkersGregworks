@@ -1,12 +1,10 @@
 package vexatos.tgregworks.integration;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 
 import com.google.common.collect.HashMultimap;
 import com.ruling_0.materiallib.api.Material;
 
-import gregtech.api.material.LegacyNameDomain;
 import gregtech.api.util.GTOreDictUnificator;
 import vexatos.tgregworks.TGregworks;
 import vexatos.tgregworks.reference.PartTypes;
@@ -42,11 +40,7 @@ public class TGregRepairRegistry {
         @Override
         public boolean matches(ItemStack input) {
             if (input.getItem() == TGregworks.registry.toolParts.get(PartTypes.Chunk)) {
-                NBTTagCompound data = TGregUtils.getTagCompound(input);
-                if (!data.hasKey("material")) {
-                    return false;
-                }
-                Material material = LegacyNameDomain.lookup(data.getString("material"));
+                Material material = TGregUtils.getMaterial(input);
                 if (material != null && material == this.m) {
                     return true;
                 }

@@ -19,7 +19,6 @@ import com.ruling_0.materiallib.api.Material;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import gregtech.api.material.LegacyNameDomain;
 import gregtech.api.material.MaterialUtils;
 import mantle.items.abstracts.CraftingItem;
 import tconstruct.library.util.IToolPart;
@@ -144,11 +143,7 @@ public class ItemTGregPart extends CraftingItem implements IToolPart {
 
     @Override
     public void onUpdate(ItemStack stack, World world, Entity entity, int par4, boolean par5) {
-        NBTTagCompound data = TGregUtils.getTagCompound(stack);
-        if (!data.hasKey("material")) {
-            return;
-        }
-        Material m = LegacyNameDomain.lookup(data.getString("material"));
+        Material m = TGregUtils.getMaterial(stack);
         if (m != null) {
             Integer matID = TGregworks.registry.matIDs.get(m);
             if (matID != null && matID != stack.getItemDamage()) {
