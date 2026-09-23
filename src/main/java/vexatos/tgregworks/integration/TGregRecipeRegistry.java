@@ -10,12 +10,14 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import com.ruling_0.materiallib.api.Material;
+import com.ruling_0.materiallib.api.MaterialLibAPI;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import gregtech.api.enums.GTValues;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.enums.ToolDictNames;
 import gregtech.api.enums.materials.Materials;
+import gregtech.api.enums.materials.Shapes;
 import gregtech.api.material.MaterialUtils;
 import gregtech.api.recipe.RecipeMaps;
 import gregtech.api.util.GTOreDictUnificator;
@@ -171,16 +173,9 @@ public class TGregRecipeRegistry {
                     int price = p.getPrice();
                     // GregTech_API.sRecipeAdder.addAlloySmelterRecipe(GTOreDictUnificator.get(OrePrefixes.ingot, m,
                     // p.price), p.pattern, input, 80 * p.price, 30);
-                    ItemStack stack = GTOreDictUnificator.get(
-                        OrePrefixes.ingot,
+                    ItemStack stack = ingotOrGem(
                         m,
                         price % 2 != 0 ? (price / 2) + 1 : MathHelper.ceiling_double_int(price / 2D));
-                    if (addGemToolPartRecipes && stack == null) {
-                        stack = GTOreDictUnificator.get(
-                            OrePrefixes.gem,
-                            m,
-                            price % 2 != 0 ? (price / 2) + 1 : MathHelper.ceiling_double_int(price / 2D));
-                    }
                     if (stack != null) {
                         if (addExtruderRecipes) {
                             GTValues.RA.stdBuilder()
@@ -237,10 +232,7 @@ public class TGregRecipeRegistry {
                 }
             }
             ItemStack stack = getChunk(m, 2);
-            ItemStack ingotStack = GTOreDictUnificator.get(OrePrefixes.ingot, m, 1);
-            if (addGemToolPartRecipes && ingotStack == null) {
-                ingotStack = GTOreDictUnificator.get(OrePrefixes.gem, m, 1);
-            }
+            ItemStack ingotStack = ingotOrGem(m, 1);
             if (stack != null && ingotStack != null) {
                 if (addIngotToShard) {
                     GTValues.RA.stdBuilder()
@@ -290,7 +282,7 @@ public class TGregRecipeRegistry {
             Config.concat(Config.Category.Enable, Config.Category.Recipes),
             true,
             "Enable the Shard Cast recipe using Tinkers' Construct shards")) {
-            ItemStack brassstack = GTOreDictUnificator.get(OrePrefixes.plate, Materials.Brass, 1);
+            ItemStack brassstack = MaterialLibAPI.getStack(Materials.Brass, Shapes.plate, 1);
             if (TinkerTools.toolShard != null) {
                 /*
                  * ArrayList list = new ArrayList(); TinkerTools.toolShard.getSubItems(TinkerTools.toolShard,
@@ -356,6 +348,12 @@ public class TGregRecipeRegistry {
 
     private ItemStack getChunk(Material m, int amount) {
         return TGregUtils.newItemStack(m, PartTypes.Chunk, amount);
+    }
+
+    private ItemStack ingotOrGem(Material m, int amount) {
+        if (m.hasShape(Shapes.ingot)) return MaterialLibAPI.getStack(m, Shapes.ingot, amount);
+        if (addGemToolPartRecipes && m.hasShape(Shapes.gem)) return MaterialLibAPI.getStack(m, Shapes.gem, amount);
+        return null;
     }
 
     public void registerRepairMaterials() {
@@ -632,7 +630,7 @@ public class TGregRecipeRegistry {
                     for (Material m : castingMaterials) {
                         GTValues.RA.stdBuilder()
                             .itemInputs(
-                                GTOreDictUnificator.get(OrePrefixes.plate, m, 1),
+                                MaterialLibAPI.getStack(m, Shapes.plate, 1),
                                 new ItemStack(p.getCounterpart(), 0, Short.MAX_VALUE))
                             .itemOutputs(stack.copy())
                             .duration(800)
@@ -640,7 +638,7 @@ public class TGregRecipeRegistry {
                             .addTo(RecipeMaps.extruderRecipes);
                         GTValues.RA.stdBuilder()
                             .itemInputs(
-                                GTOreDictUnificator.get(OrePrefixes.plate, m, 1),
+                                MaterialLibAPI.getStack(m, Shapes.plate, 1),
                                 new ItemStack(TGregworks.registry.toolParts.get(p), 0, Short.MAX_VALUE))
                             .itemOutputs(stack.copy())
                             .duration(800)
@@ -654,7 +652,7 @@ public class TGregRecipeRegistry {
                 if (molten != null && molten.getFluid() != null) {
                     GTValues.RA.stdBuilder()
                         .itemInputs(
-                            GTOreDictUnificator.get(OrePrefixes.plate, m, 1),
+                            MaterialLibAPI.getStack(m, Shapes.plate, 1),
                             new ItemStack(TGregworks.registry.toolParts.get(PartTypes.Chunk), 0, Short.MAX_VALUE))
                         .itemOutputs(new ItemStack(TGregworks.shardCast, 1, 0))
                         .duration(800)
