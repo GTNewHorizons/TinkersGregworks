@@ -171,8 +171,6 @@ public class TGregRecipeRegistry {
                 ItemStack pattern = p.getPatternItem();
                 if (pattern != null) {
                     int price = p.getPrice();
-                    // GregTech_API.sRecipeAdder.addAlloySmelterRecipe(GTOreDictUnificator.get(OrePrefixes.ingot, m,
-                    // p.price), p.pattern, input, 80 * p.price, 30);
                     ItemStack stack = ingotOrGem(
                         m,
                         price % 2 != 0 ? (price / 2) + 1 : MathHelper.ceiling_double_int(price / 2D));
