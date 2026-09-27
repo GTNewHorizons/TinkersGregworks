@@ -20,7 +20,7 @@ import gregtech.api.enums.materials.Materials;
 import gregtech.api.enums.materials.Shapes;
 import gregtech.api.material.MaterialUtils;
 import gregtech.api.recipe.RecipeMaps;
-import gregtech.api.util.GTOreDictUnificator;
+import gregtech.api.util.OreDictUtils;
 import tconstruct.TConstruct;
 import tconstruct.library.TConstructRegistry;
 import tconstruct.library.crafting.CastingRecipe;
@@ -383,11 +383,11 @@ public class TGregRecipeRegistry {
                         TGregworks.repair.registerShardRepairMaterial(m, 1);
                     }
                     if (addIngotRepair) {
-                        ArrayList<ItemStack> ingots = GTOreDictUnificator.getOres(OrePrefixes.ingot, m);
+                        ArrayList<ItemStack> ingots = OreDictUtils.getOres(OrePrefixes.ingot, m);
                         if (!ingots.isEmpty()) {
                             TGregworks.repair.registerOreDictRepairMaterial(m, OrePrefixes.ingot.oreDictName(m), 2);
                         } else if (addGemToolPartRecipes) {
-                            ingots.addAll(GTOreDictUnificator.getOres(OrePrefixes.gem, m));
+                            ingots.addAll(OreDictUtils.getOres(OrePrefixes.gem, m));
                             TGregworks.repair.registerOreDictRepairMaterial(m, OrePrefixes.gem.oreDictName(m), 2);
                         }
                         for (ItemStack ingot : ingots) {
