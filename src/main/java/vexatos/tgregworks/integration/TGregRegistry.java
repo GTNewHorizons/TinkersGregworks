@@ -14,7 +14,6 @@ import com.ruling_0.materiallib.api.MaterialLibAPI;
 import cpw.mods.fml.common.registry.GameRegistry;
 import gregtech.api.enums.materials.Materials;
 import gregtech.api.material.GTMaterialGenerationFlag;
-import gregtech.api.material.LegacyNameDomain;
 import gregtech.api.material.MaterialUtils;
 import tconstruct.library.TConstructRegistry;
 import tconstruct.library.crafting.FluidType;
@@ -93,7 +92,7 @@ public class TGregRegistry {
             configIDs.add(stored.getInt());
         }
         for (Material m : MaterialLibAPI.getMaterials()) {
-            if (!LegacyNameDomain.contains(m) || !MaterialUtils.generates(m, GTMaterialGenerationFlag.TOOL_HEAD)
+            if (!MaterialUtils.isGregTechMaterial(m) || !MaterialUtils.generates(m, GTMaterialGenerationFlag.TOOL_HEAD)
                 || MaterialUtils.oldSubId(m) < 0
                 || doesMaterialExist(m)) {
                 continue;
