@@ -2,11 +2,13 @@ package vexatos.tgregworks.integration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import com.ruling_0.materiallib.api.Material;
@@ -20,7 +22,6 @@ import gregtech.api.enums.materials.Materials;
 import gregtech.api.enums.materials.Shapes;
 import gregtech.api.material.MaterialUtils;
 import gregtech.api.recipe.RecipeMaps;
-import gregtech.api.util.OreDictUtils;
 import tconstruct.TConstruct;
 import tconstruct.library.TConstructRegistry;
 import tconstruct.library.crafting.CastingRecipe;
@@ -383,11 +384,12 @@ public class TGregRecipeRegistry {
                         TGregworks.repair.registerShardRepairMaterial(m, 1);
                     }
                     if (addIngotRepair) {
-                        ArrayList<ItemStack> ingots = OreDictUtils.getOres(OrePrefixes.ingot, m);
+                        List<ItemStack> ingots = new ArrayList<>(
+                            OreDictionary.getOres(OrePrefixes.ingot.oreDictName(m)));
                         if (!ingots.isEmpty()) {
                             TGregworks.repair.registerOreDictRepairMaterial(m, OrePrefixes.ingot.oreDictName(m), 2);
                         } else if (addGemToolPartRecipes) {
-                            ingots.addAll(OreDictUtils.getOres(OrePrefixes.gem, m));
+                            ingots.addAll(OreDictionary.getOres(OrePrefixes.gem.oreDictName(m)));
                             TGregworks.repair.registerOreDictRepairMaterial(m, OrePrefixes.gem.oreDictName(m), 2);
                         }
                         for (ItemStack ingot : ingots) {

@@ -1,11 +1,13 @@
 package vexatos.tgregworks.integration;
 
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
+
+import org.apache.commons.lang3.ArrayUtils;
 
 import com.google.common.collect.HashMultimap;
 import com.ruling_0.materiallib.api.Material;
 
-import gregtech.api.util.OreDictUtils;
 import vexatos.tgregworks.TGregworks;
 import vexatos.tgregworks.reference.PartTypes;
 import vexatos.tgregworks.util.TGregUtils;
@@ -60,7 +62,7 @@ public class TGregRepairRegistry {
 
         @Override
         public boolean matches(ItemStack input) {
-            return OreDictUtils.isItemStackInstanceOf(input, tag);
+            return ArrayUtils.contains(OreDictionary.getOreIDs(input), OreDictionary.getOreID(tag));
         }
     }
 
