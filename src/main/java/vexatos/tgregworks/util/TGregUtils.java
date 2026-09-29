@@ -43,7 +43,7 @@ public class TGregUtils {
         if (!data.hasKey("material")) {
             return -1;
         }
-        Integer matID = TGregworks.registry.matIDs.get(MaterialUtils.gregTechMaterial(data.getString("material")));
+        Integer matID = TGregworks.registry.matIDs.get(MaterialUtils.byLegacyName(data.getString("material")));
         return matID != null ? matID : 0;
     }
 
@@ -69,7 +69,7 @@ public class TGregUtils {
     /// The material named by `stack`'s NBT, or null when it carries no material tag or an unregistered name.
     public static Material getMaterial(ItemStack stack) {
         NBTTagCompound data = getTagCompound(stack);
-        return data.hasKey("material") ? MaterialUtils.gregTechMaterial(data.getString("material")) : null;
+        return data.hasKey("material") ? MaterialUtils.byLegacyName(data.getString("material")) : null;
     }
 
     /// The material's tint as `[r, g, b, a]`. Opaque white for a null material or one that declares no tint.
