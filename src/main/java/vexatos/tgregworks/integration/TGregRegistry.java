@@ -92,9 +92,7 @@ public class TGregRegistry {
             configIDs.add(stored.getInt());
         }
         for (Material m : MaterialLibAPI.getMaterials()) {
-            if (!MaterialUtils.isGregTechMaterial(m) || !MaterialUtils.generates(m, GTMaterialGenerationFlag.TOOL_HEAD)
-                || MaterialUtils.oldSubId(m) < 0
-                || doesMaterialExist(m)) {
+            if (!MaterialUtils.generates(m, GTMaterialGenerationFlag.TOOL_HEAD) || doesMaterialExist(m)) {
                 continue;
             }
             String name = MaterialUtils.internalName(m);
