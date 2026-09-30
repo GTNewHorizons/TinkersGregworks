@@ -94,9 +94,7 @@ public class TGregRegistry {
             configIDs.add(stored.getInt());
         }
         for (Material m : MaterialLibAPI.getMaterials()) {
-            if (!MaterialUtils.generates(m, GTMaterialGenerationFlag.TOOL_HEAD)
-                || MaterialParts.stack(OrePrefixes.ingot, m, 1) == null
-                    && MaterialParts.stack(OrePrefixes.gem, m, 1) == null
+            if (!MaterialUtils.generates(m, GTMaterialGenerationFlag.TOOL_HEAD) || !hasIngotOrGem(m)
                 || doesMaterialExist(m)) {
                 continue;
             }
@@ -295,6 +293,10 @@ public class TGregRegistry {
                 3)
             .getInt(
                 reinforced1Mats.contains(m) ? 1 : reinforced2Mats.contains(m) ? 2 : m == Materials.Osmiridium ? 3 : 0);
+    }
+
+    private static boolean hasIngotOrGem(Material m) {
+        return MaterialParts.stack(OrePrefixes.ingot, m, 1) != null || MaterialParts.stack(OrePrefixes.gem, m, 1) != null;
     }
 
     private boolean doesMaterialExist(Material m) {
