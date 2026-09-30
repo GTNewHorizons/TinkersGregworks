@@ -12,8 +12,10 @@ import com.ruling_0.materiallib.api.Material;
 import com.ruling_0.materiallib.api.MaterialLibAPI;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import gregtech.api.enums.OrePrefixes;
 import gregtech.api.enums.materials.Materials;
 import gregtech.api.material.GTMaterialGenerationFlag;
+import gregtech.api.material.MaterialParts;
 import gregtech.api.material.MaterialUtils;
 import tconstruct.library.TConstructRegistry;
 import tconstruct.library.crafting.FluidType;
@@ -92,7 +94,10 @@ public class TGregRegistry {
             configIDs.add(stored.getInt());
         }
         for (Material m : MaterialLibAPI.getMaterials()) {
-            if (!MaterialUtils.generates(m, GTMaterialGenerationFlag.TOOL_HEAD) || doesMaterialExist(m)) {
+            if (!MaterialUtils.generates(m, GTMaterialGenerationFlag.TOOL_HEAD)
+                || MaterialParts.stack(OrePrefixes.ingot, m, 1) == null
+                    && MaterialParts.stack(OrePrefixes.gem, m, 1) == null
+                || doesMaterialExist(m)) {
                 continue;
             }
             String name = MaterialUtils.internalName(m);
