@@ -6,10 +6,17 @@ import java.util.HashMap;
 import java.util.List;
 
 import net.minecraftforge.common.config.Property;
+import net.minecraftforge.fluids.Fluid;
+
+import com.ruling_0.materiallib.api.Material;
+import com.ruling_0.materiallib.api.MaterialLibAPI;
 
 import cpw.mods.fml.common.registry.GameRegistry;
-import gregtech.api.GregTech_API;
-import gregtech.api.enums.Materials;
+import gregtech.api.enums.OrePrefixes;
+import gregtech.api.enums.materials.Materials;
+import gregtech.api.material.GTMaterialFlag;
+import gregtech.api.material.MaterialParts;
+import gregtech.api.material.MaterialUtils;
 import tconstruct.library.TConstructRegistry;
 import tconstruct.library.crafting.FluidType;
 import vexatos.tgregworks.TGregworks;
@@ -17,6 +24,7 @@ import vexatos.tgregworks.integration.recipe.tconstruct.TGregFluidType;
 import vexatos.tgregworks.item.ItemTGregPart;
 import vexatos.tgregworks.reference.Config;
 import vexatos.tgregworks.reference.PartTypes;
+import vexatos.tgregworks.util.TGregUtils;
 
 /**
  * @author Vexatos
@@ -26,10 +34,10 @@ public class TGregRegistry {
     private int latestAvailableNumber = 1500;
     private boolean addMaterialsAnyway = false;
 
-    public ArrayList<Materials> toolMaterials = new ArrayList<Materials>();
+    public ArrayList<Material> toolMaterials = new ArrayList<Material>();
     public ArrayList<String> toolMaterialNames = new ArrayList<String>();
-    public HashMap<Materials, Integer> matIDs = new HashMap<Materials, Integer>();
-    public HashMap<Integer, Materials> materialIDMap = new HashMap<Integer, Materials>();
+    public HashMap<Material, Integer> matIDs = new HashMap<Material, Integer>();
+    public HashMap<Integer, Material> materialIDMap = new HashMap<Integer, Material>();
 
     private int getLatestAvailableNumber() {
         for (int i = latestAvailableNumber; i < 16383; i++) {
@@ -41,13 +49,17 @@ public class TGregRegistry {
         throw new RuntimeException("TConstruct tool material registry ran out of IDs!");
     }
 
-    public final HashMap<Materials, Property> configProps = new HashMap<>();
+    public final HashMap<Material, Property> configProps = new HashMap<>();
+
+    /// Every material id the config holds, including those of materials not registered this run.
+    /// [#getLatestAvailableNumber] skips them for the lifetime of the registry.
     public final ArrayList<Integer> configIDs = new ArrayList<>();
 
-    public int getMaterialID(Materials m) {
+    public int getMaterialID(Material m) {
         Property configProp = configProps.get(m);
         if (configProp == null) {
-            configProp = TGregworks.config.get(Config.onMaterial(Config.MaterialID), m.mName, 0, null, 0, 30000);
+            configProp = TGregworks.config
+                .get(Config.onMaterial(Config.MaterialID), MaterialUtils.internalName(m), 0, null, 0, 30000);
         }
         final int configID = configProp.getInt();
         if (configID > 0) {
@@ -61,35 +73,41 @@ public class TGregRegistry {
 
     public TGregRegistry() {
         latestAvailableNumber = TGregworks.config.getInt(
-                "materialIDRangeStart",
-                Config.Category.General,
-                1500,
-                300,
-                15000,
-                "The lowest ID for TGregworks materials. Only material IDs higher than this will be used, and only if the ID has not been registered before. Other mods might not check if the material ID is already in use and thus crash, if the crash occurs with a TGregworks material, changing this number may fix it.");
+            "materialIDRangeStart",
+            Config.Category.General,
+            1500,
+            300,
+            15000,
+            "The lowest ID for TGregworks materials. Only material IDs higher than this will be used, and only if the ID has not been registered before. Other mods might not check if the material ID is already in use and thus crash, if the crash occurs with a TGregworks material, changing this number may fix it.");
         addMaterialsAnyway = TGregworks.config.getBoolean(
-                "addMaterialsAnyway",
-                Config.Category.General,
-                false,
-                "Register Materials even if a material with the same name already exists. May override any material with the same name added by other mods.");
+            "addMaterialsAnyway",
+            Config.Category.General,
+            false,
+            "Register Materials even if a material with the same name already exists. May override any material with the same name added by other mods.");
     }
 
     public void registerToolParts() {
         TGregworks.log.info("Registering TGregworks tool parts.");
-        List<Materials> gtMaterials = Arrays.asList(GregTech_API.sGeneratedMaterials);
-        for (Materials m : Materials.values()) {
-            if (((m.mTypes & 64) == 64) && !doesMaterialExist(m)
-                    && gtMaterials.contains(m)
-                    && TGregworks.config.get(Config.Category.Enable, m.mName, true).getBoolean(true)) {
-                toolMaterials.add(m);
-                Property configProp = TGregworks.config
-                        .get(Config.onMaterial(Config.MaterialID), m.mName, 0, null, 0, 100000);
-                configProps.put(m, configProp);
-                configIDs.add(configProp.getInt());
-            }
+        for (Property stored : TGregworks.config.getCategory(Config.onMaterial(Config.MaterialID))
+            .getValues()
+            .values()) {
+            configIDs.add(stored.getInt());
         }
-        for (Materials m : toolMaterials) {
-            toolMaterialNames.add(m.mDefaultLocalName);
+        for (Material m : MaterialLibAPI.getMaterials()) {
+            if (!MaterialUtils.hasFlag(m, GTMaterialFlag.TOOL_MATERIAL) || !hasIngotOrGem(m) || doesMaterialExist(m)) {
+                continue;
+            }
+            String name = MaterialUtils.internalName(m);
+            if (!TGregworks.config.get(Config.Category.Enable, name, true)
+                .getBoolean(true)) {
+                continue;
+            }
+            toolMaterials.add(m);
+            Property configProp = TGregworks.config.get(Config.onMaterial(Config.MaterialID), name, 0, null, 0, 100000);
+            configProps.put(m, configProp);
+        }
+        for (Material m : toolMaterials) {
+            toolMaterialNames.add(MaterialUtils.localName(m));
             int matID = getMaterialID(m);
             addToolMaterial(matID, m);
             addBowMaterial(matID, m);
@@ -98,77 +116,82 @@ public class TGregRegistry {
             materialIDMap.put(matID, m);
         }
         configProps.clear();
-        configIDs.clear();
 
         ItemTGregPart.toolMaterialNames = toolMaterialNames;
     }
 
-    public void addToolMaterial(int matID, Materials m) {
+    public void addToolMaterial(int matID, Material m) {
+        final int toolQuality = MaterialUtils.toolQuality(m);
+        final short[] rgba = TGregUtils.getRGBa(m);
         TConstructRegistry.addToolMaterial(
-                matID,
-                m.mName,
-                m.mLocalizedName,
-                m.mToolQuality,
-                (int) (m.mDurability * getGlobalMultiplier(Config.Durability) * getMultiplier(m, Config.Durability)), // Durability
-                (int) (m.mToolSpeed * 100F
-                        * getGlobalMultiplier(Config.MiningSpeed)
-                        * getMultiplier(m, Config.MiningSpeed)), // Mining speed
-                (int) (m.mToolQuality * getGlobalMultiplier(Config.Attack) * getMultiplier(m, Config.Attack)), // Attack
-                (sanitizeToolQuality(m.mToolQuality) - 0.5F) * getGlobalMultiplier(Config.HandleModifier)
-                        * getMultiplier(m, Config.HandleModifier), // Handle Modifier
-                getReinforcedLevel(m),
-                getStoneboundLevel(m),
-                "",
-                (m.getRGBA()[0] << 16) | (m.getRGBA()[1] << 8) | (m.getRGBA()[2]));
+            matID,
+            MaterialUtils.internalName(m),
+            MaterialUtils.localName(m),
+            toolQuality,
+            (int) (MaterialUtils.durability(m) * getGlobalMultiplier(Config.Durability)
+                * getMultiplier(m, Config.Durability)), // Durability
+            (int) (MaterialUtils.toolSpeed(m) * 100F
+                * getGlobalMultiplier(Config.MiningSpeed)
+                * getMultiplier(m, Config.MiningSpeed)), // Mining speed
+            (int) (toolQuality * getGlobalMultiplier(Config.Attack) * getMultiplier(m, Config.Attack)), // Attack
+            (sanitizeToolQuality(toolQuality) - 0.5F) * getGlobalMultiplier(Config.HandleModifier)
+                * getMultiplier(m, Config.HandleModifier), // Handle Modifier
+            getReinforcedLevel(m),
+            getStoneboundLevel(m),
+            "",
+            (rgba[0] << 16) | (rgba[1] << 8) | (rgba[2]));
     }
 
-    public void addBowMaterial(int matID, Materials m) {
+    public void addBowMaterial(int matID, Material m) {
+        final int toolQuality = sanitizeToolQuality(MaterialUtils.toolQuality(m));
         TConstructRegistry.addBowMaterial(
-                matID,
-                (int) (sanitizeToolQuality(m.mToolQuality) * 10F
-                        * getGlobalMultiplier(Config.BowDrawSpeed)
-                        * getMultiplier(m, Config.BowDrawSpeed)),
-                (sanitizeToolQuality(m.mToolQuality) - 0.5F) * getGlobalMultiplier(Config.BowFlightSpeed)
-                        * getMultiplier(m, Config.BowFlightSpeed));
+            matID,
+            (int) (toolQuality * 10F
+                * getGlobalMultiplier(Config.BowDrawSpeed)
+                * getMultiplier(m, Config.BowDrawSpeed)),
+            (toolQuality - 0.5F) * getGlobalMultiplier(Config.BowFlightSpeed)
+                * getMultiplier(m, Config.BowFlightSpeed));
     }
 
-    public void addArrowMaterial(int matID, Materials m) {
+    public void addArrowMaterial(int matID, Material m) {
         TConstructRegistry.addArrowMaterial(
-                matID,
-                (float) ((((double) m.getMass()) / 10F) * getGlobalMultiplier(Config.ArrowMass)
-                        * getMultiplier(m, Config.ArrowMass)),
-                getGlobalMultiplier(Config.ArrowBreakChance, 0.9) * getMultiplier(m, Config.ArrowBreakChance));
+            matID,
+            (float) ((((double) MaterialUtils.mass(m)) / 10F) * getGlobalMultiplier(Config.ArrowMass)
+                * getMultiplier(m, Config.ArrowMass)),
+            getGlobalMultiplier(Config.ArrowBreakChance, 0.9) * getMultiplier(m, Config.ArrowBreakChance));
     }
 
     /**
-     * {@link Materials#mToolQuality} may be 0, which can be problematic for some stats.
+     * A material's tool quality may be 0, which can be problematic for some stats.
      */
     private static int sanitizeToolQuality(int toolQuality) {
         return Math.max(toolQuality, 1);
     }
 
-    public HashMap<Materials, TGregFluidType> toolMaterialFluidTypes = new HashMap<Materials, TGregFluidType>();
+    public HashMap<Material, TGregFluidType> toolMaterialFluidTypes = new HashMap<Material, TGregFluidType>();
 
     public void registerFluids() {
-        for (Materials m : toolMaterials) {
-            if (m.mStandardMoltenFluid != null) {
+        for (Material m : toolMaterials) {
+            Fluid molten = MaterialUtils.moltenOf(m);
+            if (molten != null) {
                 TGregFluidType fluidType = new TGregFluidType(
-                        m,
-                        m.mStandardMoltenFluid.getBlock(),
-                        0,
-                        m.mStandardMoltenFluid.getTemperature(),
-                        m.mStandardMoltenFluid,
-                        true,
-                        matIDs.get(m));
+                    m,
+                    molten.getBlock(),
+                    0,
+                    molten.getTemperature(),
+                    molten,
+                    true,
+                    matIDs.get(m));
 
                 toolMaterialFluidTypes.put(m, fluidType);
-                FluidType.registerFluidType(m.mStandardMoltenFluid.getName(), fluidType);
+                FluidType.registerFluidType(molten.getName(), fluidType);
             }
         }
     }
 
-    public float getMultiplier(Materials m, String key) {
-        return (float) TGregworks.config.get(Config.onMaterial(key), m.mName, 1.0, null, 0, 10000).getDouble(1.0);
+    public float getMultiplier(Material m, String key) {
+        return (float) TGregworks.config.get(Config.onMaterial(key), MaterialUtils.internalName(m), 1.0, null, 0, 10000)
+            .getDouble(1.0);
     }
 
     private final HashMap<String, Float> globalMultipliers = new HashMap<String, Float>();
@@ -180,7 +203,8 @@ public class TGregRegistry {
     public float getGlobalMultiplier(String key, double def) {
         Float multiplier = globalMultipliers.get(key);
         if (multiplier == null) {
-            multiplier = (float) TGregworks.config.get(Config.Category.Global, key, def, null, 0, 10000).getDouble(def);
+            multiplier = (float) TGregworks.config.get(Config.Category.Global, key, def, null, 0, 10000)
+                .getDouble(def);
             globalMultipliers.put(key, multiplier);
         }
         return multiplier;
@@ -230,46 +254,53 @@ public class TGregRegistry {
      * stack2); }
      */
 
-    private List<Materials> stonebound1Mats = Arrays.asList(Materials.Titanium, Materials.Tungsten);
-    private List<Materials> spiny1Mats = Arrays.asList(Materials.Uranium, Materials.Uranium235);
+    private List<Material> stonebound1Mats = Arrays.asList(Materials.Titanium, Materials.Tungsten);
+    private List<Material> spiny1Mats = Arrays.asList(Materials.Uranium, Materials.Uranium235);
 
-    public float getStoneboundLevel(Materials m) {
-        return (float) TGregworks.config.get(
+    public float getStoneboundLevel(Material m) {
+        return (float) TGregworks.config
+            .get(
                 Config.StoneboundLevel,
-                m.mName,
+                MaterialUtils.internalName(m),
                 stonebound1Mats.contains(m) ? 1 : spiny1Mats.contains(m) ? -1 : 0,
                 null,
                 -3,
-                3).getInt(stonebound1Mats.contains(m) ? 1 : spiny1Mats.contains(m) ? -1 : 0);
+                3)
+            .getInt(stonebound1Mats.contains(m) ? 1 : spiny1Mats.contains(m) ? -1 : 0);
     }
 
-    private List<Materials> reinforced1Mats = Arrays.asList(
-            Materials.SteelMagnetic,
-            Materials.BlackSteel,
-            Materials.BlueSteel,
-            Materials.Titanium,
-            Materials.DamascusSteel,
-            Materials.StainlessSteel,
-            Materials.RedSteel,
-            Materials.MeteoricSteel,
-            Materials.TungstenSteel);
-    private List<Materials> reinforced2Mats = Arrays.asList(Materials.Osmium, Materials.Iridium);
+    private List<Material> reinforced1Mats = Arrays.asList(
+        Materials.SteelMagnetic,
+        Materials.BlackSteel,
+        Materials.BlueSteel,
+        Materials.Titanium,
+        Materials.DamascusSteel,
+        Materials.StainlessSteel,
+        Materials.RedSteel,
+        Materials.MeteoricSteel,
+        Materials.TungstenSteel);
+    private List<Material> reinforced2Mats = Arrays.asList(Materials.Osmium, Materials.Iridium);
 
-    public int getReinforcedLevel(Materials m) {
-        return TGregworks.config.get(
+    public int getReinforcedLevel(Material m) {
+        return TGregworks.config
+            .get(
                 Config.ReinforcedLevel,
-                m.mName,
+                MaterialUtils.internalName(m),
                 reinforced1Mats.contains(m) ? 1 : reinforced2Mats.contains(m) ? 2 : m == Materials.Osmiridium ? 3 : 0,
                 null,
                 0,
-                3).getInt(
-                        reinforced1Mats.contains(m) ? 1
-                                : reinforced2Mats.contains(m) ? 2 : m == Materials.Osmiridium ? 3 : 0);
+                3)
+            .getInt(
+                reinforced1Mats.contains(m) ? 1 : reinforced2Mats.contains(m) ? 2 : m == Materials.Osmiridium ? 3 : 0);
     }
 
-    private boolean doesMaterialExist(Materials m) {
-        return !addMaterialsAnyway && TConstructRegistry.toolMaterialStrings.containsKey(m.mName);
-        // && Arrays.asList(GregTech_API.sGeneratedMaterials).contains(m);
+    private static boolean hasIngotOrGem(Material m) {
+        return MaterialParts.stack(OrePrefixes.ingot, m, 1) != null
+            || MaterialParts.stack(OrePrefixes.gem, m, 1) != null;
+    }
+
+    private boolean doesMaterialExist(Material m) {
+        return !addMaterialsAnyway && TConstructRegistry.toolMaterialStrings.containsKey(MaterialUtils.internalName(m));
     }
 
     public HashMap<PartTypes, ItemTGregPart> toolParts = new HashMap<PartTypes, ItemTGregPart>();
@@ -278,7 +309,10 @@ public class TGregRegistry {
         for (PartTypes p : PartTypes.VALUES) {
             ItemTGregPart item = new ItemTGregPart(p);
             toolParts.put(p, item);
-            GameRegistry.registerItem(item, "tGregToolPart" + item.getType().name());
+            GameRegistry.registerItem(
+                item,
+                "tGregToolPart" + item.getType()
+                    .name());
         }
     }
 

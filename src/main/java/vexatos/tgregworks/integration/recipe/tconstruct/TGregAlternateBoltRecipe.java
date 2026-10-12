@@ -21,11 +21,8 @@ public class TGregAlternateBoltRecipe implements IRecipe {
 
     static {
         // register the recipe with the recipesorter
-        RecipeSorter.register(
-                Mods.TGregworks + ":part",
-                TGregAlternateBoltRecipe.class,
-                RecipeSorter.Category.SHAPELESS,
-                "");
+        RecipeSorter
+            .register(Mods.TGregworks + ":part", TGregAlternateBoltRecipe.class, RecipeSorter.Category.SHAPELESS, "");
     }
 
     protected ItemStack outputPart;

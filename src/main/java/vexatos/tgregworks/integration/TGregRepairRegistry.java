@@ -1,12 +1,13 @@
 package vexatos.tgregworks.integration;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.oredict.OreDictionary;
+
+import org.apache.commons.lang3.ArrayUtils;
 
 import com.google.common.collect.HashMultimap;
+import com.ruling_0.materiallib.api.Material;
 
-import gregtech.api.enums.Materials;
-import gregtech.api.util.GT_OreDictUnificator;
 import vexatos.tgregworks.TGregworks;
 import vexatos.tgregworks.reference.PartTypes;
 import vexatos.tgregworks.util.TGregUtils;
@@ -16,7 +17,7 @@ import vexatos.tgregworks.util.TGregUtils;
  */
 public class TGregRepairRegistry {
 
-    public final HashMultimap<Materials, RepairMaterial> repairMaterials = HashMultimap.create();
+    public final HashMultimap<Material, RepairMaterial> repairMaterials = HashMultimap.create();
 
     public static abstract class RepairMaterial {
 
@@ -31,9 +32,9 @@ public class TGregRepairRegistry {
 
     public static class ShardRepairMaterial extends RepairMaterial {
 
-        public final Materials m;
+        public final Material m;
 
-        public ShardRepairMaterial(Materials m, int value) {
+        public ShardRepairMaterial(Material m, int value) {
             super(value);
             this.m = m;
         }
@@ -41,11 +42,7 @@ public class TGregRepairRegistry {
         @Override
         public boolean matches(ItemStack input) {
             if (input.getItem() == TGregworks.registry.toolParts.get(PartTypes.Chunk)) {
-                NBTTagCompound data = TGregUtils.getTagCompound(input);
-                if (!data.hasKey("material")) {
-                    return false;
-                }
-                Materials material = Materials.get(data.getString("material"));
+                Material material = TGregUtils.getMaterial(input);
                 if (material != null && material == this.m) {
                     return true;
                 }
@@ -65,15 +62,15 @@ public class TGregRepairRegistry {
 
         @Override
         public boolean matches(ItemStack input) {
-            return GT_OreDictUnificator.isItemStackInstanceOf(input, tag);
+            return ArrayUtils.contains(OreDictionary.getOreIDs(input), OreDictionary.getOreID(tag));
         }
     }
 
-    public void registerShardRepairMaterial(Materials m, int value) {
+    public void registerShardRepairMaterial(Material m, int value) {
         repairMaterials.put(m, new ShardRepairMaterial(m, value));
     }
 
-    public void registerOreDictRepairMaterial(Materials m, String tag, int value) {
+    public void registerOreDictRepairMaterial(Material m, String tag, int value) {
         repairMaterials.put(m, new OreDictRepairMaterial(tag, value));
     }
 }

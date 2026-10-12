@@ -14,7 +14,8 @@ public class ModLimitedTGregRepair extends ModTGregRepair {
 
     @Override
     protected boolean canModify(ItemStack tool, ItemStack[] input) {
-        NBTTagCompound tags = tool.getTagCompound().getCompoundTag("InfiTool");
+        NBTTagCompound tags = tool.getTagCompound()
+            .getCompoundTag("InfiTool");
         int repairCount = tags.getInteger("RepairCount");
         return repairCount < Config.maxToolRepairs && super.canModify(tool, input);
     }

@@ -15,9 +15,11 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
+import com.ruling_0.materiallib.api.Material;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import gregtech.api.enums.Materials;
+import gregtech.api.material.MaterialUtils;
 import mantle.items.abstracts.CraftingItem;
 import tconstruct.library.util.IToolPart;
 import vexatos.tgregworks.TGregworks;
@@ -33,11 +35,11 @@ public class ItemTGregPart extends CraftingItem implements IToolPart {
 
     public ItemTGregPart(PartTypes p) {
         super(
-                toolMaterialNames.toArray(new String[toolMaterialNames.size()]),
-                buildTextureNames(p),
-                "parts/",
-                "tinker",
-                TGregworks.tab);
+            toolMaterialNames.toArray(new String[toolMaterialNames.size()]),
+            buildTextureNames(p),
+            "parts/",
+            "tinker",
+            TGregworks.tab);
         this.setHasSubtypes(true);
         this.setMaxDamage(0);
         this.type = p;
@@ -49,16 +51,14 @@ public class ItemTGregPart extends CraftingItem implements IToolPart {
 
     @Override
     public String getItemStackDisplayName(ItemStack stack) {
-        NBTTagCompound data = TGregUtils.getTagCompound(stack);
-        String matName;
-        if (!data.hasKey("material") || Materials.get(data.getString("material")) == Materials._NULL) {
-            matName = StatCollector.translateToLocal("tgregworks.materials.unknown");
-        } else {
-            matName = Materials.get(data.getString("material")).mLocalizedName;
-        }
+        Material m = TGregUtils.getMaterial(stack);
+        String matName = m == null ? StatCollector.translateToLocal("tgregworks.materials.unknown")
+            : MaterialUtils.localName(m);
 
-        String name = StatCollector
-                .translateToLocal("tgregworks.toolpart." + type.getPartName().replace(" ", "_").toLowerCase());
+        String name = StatCollector.translateToLocal(
+            "tgregworks.toolpart." + type.getPartName()
+                .replace(" ", "_")
+                .toLowerCase());
         matName = name.replaceAll("%%material", matName);
 
         if (stack.getItemDamage() == 0) {
@@ -70,16 +70,8 @@ public class ItemTGregPart extends CraftingItem implements IToolPart {
 
     @Override
     public String getUnlocalizedName(ItemStack stack) {
-        NBTTagCompound data = TGregUtils.getTagCompound(stack);
-        String matName;
-        if (!data.hasKey("material") || Materials.get(data.getString("material")) == Materials._NULL) {
-            matName = "Unknown";
-        } else {
-            matName = Materials.get(data.getString("material")).mDefaultLocalName;
-        }
-        // return StatCollector.translateToLocal("tgregworks.toolpart." + PartTypes.getFromID(stack.getItemDamage()) +
-        // "." + matName);
-        return matName;
+        Material m = TGregUtils.getMaterial(stack);
+        return m == null ? "Unknown" : MaterialUtils.localName(m);
     }
 
     @Override
@@ -110,10 +102,10 @@ public class ItemTGregPart extends CraftingItem implements IToolPart {
     @SuppressWarnings("unchecked")
     @Override
     public void getSubItems(Item b, CreativeTabs tab, List list) {
-        for (Materials m : TGregworks.registry.toolMaterials) {
+        for (Material m : TGregworks.registry.toolMaterials) {
             ItemStack stack = new ItemStack(b, 1, TGregworks.registry.matIDs.get(m));
             NBTTagCompound data = TGregUtils.getTagCompound(stack);
-            data.setString("material", m.mName);
+            data.setString("material", MaterialUtils.internalName(m));
             stack.setTagCompound(data);
             list.add(stack);
         }
@@ -127,7 +119,6 @@ public class ItemTGregPart extends CraftingItem implements IToolPart {
         // if(!data.hasKey("material")) {
         // return icons[meta];
         // }
-        // Materials m = Materials.get(data.getString("material"));
         return icons[0];
     }
 
@@ -152,11 +143,7 @@ public class ItemTGregPart extends CraftingItem implements IToolPart {
 
     @Override
     public void onUpdate(ItemStack stack, World world, Entity entity, int par4, boolean par5) {
-        NBTTagCompound data = TGregUtils.getTagCompound(stack);
-        if (!data.hasKey("material")) {
-            return;
-        }
-        Materials m = Materials.get(data.getString("material"));
+        Material m = TGregUtils.getMaterial(stack);
         if (m != null) {
             Integer matID = TGregworks.registry.matIDs.get(m);
             if (matID != null && matID != stack.getItemDamage()) {
@@ -171,8 +158,8 @@ public class ItemTGregPart extends CraftingItem implements IToolPart {
         super.addInformation(stack, player, tooltip, par4);
         if (stack.getItemDamage() == 0) {
             tooltip.add(
-                    EnumChatFormatting.GRAY.toString() + EnumChatFormatting.ITALIC.toString()
-                            + "Put this into your inventory to update it.");
+                EnumChatFormatting.GRAY.toString() + EnumChatFormatting.ITALIC.toString()
+                    + "Put this into your inventory to update it.");
         }
     }
 
@@ -188,23 +175,7 @@ public class ItemTGregPart extends CraftingItem implements IToolPart {
      * @return the Color Modulation the Material is going to be rendered with.
      */
     public static short[] getRGBa(ItemStack stack) {
-        NBTTagCompound data = TGregUtils.getTagCompound(stack);
-        if (!data.hasKey("material")) {
-            return Materials._NULL.mRGBa;
-        }
-        Materials m = Materials.get(data.getString("material"));
-        if (m == null || m == Materials._NULL) {
-            return Materials._NULL.mRGBa;
-        }
-        for (byte i = 0; i < m.mRGBa.length; i++) {
-            if (m.mRGBa[i] > 255) {
-                m.mRGBa[i] = 255;
-            }
-            if (m.mRGBa[i] < 0) {
-                m.mRGBa[i] = 0;
-            }
-        }
-        return m.mRGBa;
+        return TGregUtils.getRGBa(TGregUtils.getMaterial(stack));
     }
 
     @Override
