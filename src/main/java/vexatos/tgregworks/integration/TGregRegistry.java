@@ -295,8 +295,7 @@ public class TGregRegistry {
     }
 
     private static boolean hasIngotOrGem(Material m) {
-        return MaterialParts.stack(OrePrefixes.ingot, m, 1) != null
-            || MaterialParts.stack(OrePrefixes.gem, m, 1) != null;
+        return m.hasShape(Shapes.ingot) || m.hasShape(Shapes.gem);
     }
 
     private boolean doesMaterialExist(Material m) {
