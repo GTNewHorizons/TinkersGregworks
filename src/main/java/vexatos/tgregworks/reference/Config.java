@@ -8,17 +8,17 @@ public class Config {
     public static class Category {
 
         public static final String Materials = "materials", Enable = "enable", Recipes = "recipe", Global = "global",
-                General = "general";
+            General = "general";
 
         public static final String AlloySmelter = "alloysmelter", Extruder = "extruder", Solidifier = "fluidsolidifier",
-                Extractor = "fluidextractor";
+            Extractor = "fluidextractor";
     }
 
     public static final String Durability = "durability", MiningSpeed = "miningspeed", Attack = "attack",
-            HandleModifier = "handlemodifier", MaterialID = "material-id";
+        HandleModifier = "handlemodifier", MaterialID = "material-id";
 
     public static final String StoneboundLevel = Category.Materials + ".stoneboundlevel",
-            ReinforcedLevel = Category.Materials + ".reinforcedlevel";
+        ReinforcedLevel = Category.Materials + ".reinforcedlevel";
 
     public static final String BowDrawSpeed = "bowdrawspeed", BowFlightSpeed = "bowflightspeed";
 

@@ -29,13 +29,14 @@ public class ModTGregRepair extends ItemModifier {
 
     @Override
     protected boolean canModify(ItemStack tool, ItemStack[] input) {
-        NBTTagCompound tags = tool.getTagCompound().getCompoundTag("InfiTool");
+        NBTTagCompound tags = tool.getTagCompound()
+            .getCompoundTag("InfiTool");
         if (tags.getInteger("Damage") > 0) {
             int headID = tags.getInteger("Head");
             boolean areInputsValid = true;
             for (ItemStack curInput : input) {
                 if (curInput != null && headID != PatternBuilder.instance.getPartID(curInput)
-                        && !isValidRepairMaterial(curInput, headID)) {
+                    && !isValidRepairMaterial(curInput, headID)) {
                     areInputsValid = false;
                     break;
                 }
@@ -48,7 +49,8 @@ public class ModTGregRepair extends ItemModifier {
     }
 
     private boolean calculateIfNecessary(ItemStack tool, ItemStack[] input, int materialID) {
-        NBTTagCompound tags = tool.getTagCompound().getCompoundTag("InfiTool");
+        NBTTagCompound tags = tool.getTagCompound()
+            .getCompoundTag("InfiTool");
         int damage = tags.getInteger("Damage");
         int numInputs = 0;
         int materialValue = 0;
@@ -71,7 +73,7 @@ public class ModTGregRepair extends ItemModifier {
 
     private boolean isValidRepairMaterial(ItemStack input, int materialID) {
         Set<RepairMaterial> repairMaterials = TGregworks.repair.repairMaterials
-                .get(TGregworks.registry.materialIDMap.get(materialID));
+            .get(TGregworks.registry.materialIDMap.get(materialID));
         for (RepairMaterial mat : repairMaterials) {
             if (mat.matches(input)) {
                 return true;
@@ -82,7 +84,7 @@ public class ModTGregRepair extends ItemModifier {
 
     private int getRepairAmount(ItemStack input, int materialID) {
         Set<RepairMaterial> repairMaterials = TGregworks.repair.repairMaterials
-                .get(TGregworks.registry.materialIDMap.get(materialID));
+            .get(TGregworks.registry.materialIDMap.get(materialID));
         for (RepairMaterial mat : repairMaterials) {
             if (mat.matches(input)) {
                 return mat.value;
@@ -92,7 +94,8 @@ public class ModTGregRepair extends ItemModifier {
     }
 
     private int calculateIncrease(ItemStack tool, int materialValue, int itemsUsed) {
-        NBTTagCompound tags = tool.getTagCompound().getCompoundTag("InfiTool");
+        NBTTagCompound tags = tool.getTagCompound()
+            .getCompoundTag("InfiTool");
         int damage = tags.getInteger("Damage");
         int dur = tags.getInteger("BaseDurability");
         int increase = (int) (50 * itemsUsed + (dur * 0.4f * materialValue));
@@ -121,7 +124,8 @@ public class ModTGregRepair extends ItemModifier {
 
     @Override
     public void modify(ItemStack[] input, ItemStack tool) {
-        NBTTagCompound tags = tool.getTagCompound().getCompoundTag("InfiTool");
+        NBTTagCompound tags = tool.getTagCompound()
+            .getCompoundTag("InfiTool");
         tags.setBoolean("Broken", false);
         int damage = tags.getInteger("Damage");
         int headID = tags.getInteger("Head");
@@ -155,6 +159,7 @@ public class ModTGregRepair extends ItemModifier {
     public void addMatchingEffect(ItemStack tool) {}
 
     public boolean validType(IModifyable input) {
-        return input.getModifyType().equals("Tool");
+        return input.getModifyType()
+            .equals("Tool");
     }
 }
