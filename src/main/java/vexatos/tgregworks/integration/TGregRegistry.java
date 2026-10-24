@@ -295,7 +295,7 @@ public class TGregRegistry {
     }
 
     private static boolean hasIngotOrGem(Material m) {
-        return MaterialParts.isCutOver(OrePrefixes.ingot, m) || MaterialParts.isCutOver(OrePrefixes.gem, m);
+        return m.hasShape(Shapes.ingot) || m.hasShape(Shapes.gem);
     }
 
     private boolean doesMaterialExist(Material m) {
